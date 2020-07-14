@@ -1,25 +1,68 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { Text, View, TextInput, Button, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
+import { AppLoading } from "expo";
 import * as firebase from "firebase";
+import { createSwitchNavigator, createAppContainer } from "react-navigation";
 
-// Initialize Firebase JS SDK
-// https://firebase.google.com/docs/web/setup
-try {
-  firebase.initializeApp({
-    apiKey: "AIzaSyDzE6TjEKpqAwaCD7DUQHuu0udEe4JoRQ8",
-    authDomain: "expo-firebase-auth-718eb.firebaseapp.com",
-    databaseURL: "https://expo-firebase-auth-718eb.firebaseio.com",
-    projectId: "expo-firebase-auth-718eb",
-    storageBucket: "expo-firebase-auth-718eb.appspot.com",
-    messagingSenderId: "104778066778",
-    appId: "1:104778066778:web:875cbdddacd671d2046163"
-  });
-} catch (err) {
-  // ignore app already initialized error in snack
+firebase.initializeApp({
+  apiKey: "AIzaSyDzE6TjEKpqAwaCD7DUQHuu0udEe4JoRQ8",
+  authDomain: "expo-firebase-auth-718eb.firebaseapp.com",
+  databaseURL: "https://expo-firebase-auth-718eb.firebaseio.com",
+  projectId: "expo-firebase-auth-718eb",
+  storageBucket: "expo-firebase-auth-718eb.appspot.com",
+  messagingSenderId: "104778066778",
+  appId: "1:104778066778:web:875cbdddacd671d2046163"
+});
+
+const InitialScreen = ({ navigation }) => {
+  useEffect(() => {
+    try {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          // if the user has previously logged in
+          navigation.navigate("Home");
+        } else {
+          // if the user has previously logged out from the app
+          navigation.navigate("Login");
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  return <AppLoading />
 }
 
-export default function App() {
+const HomeScreen = () => {
+  const handleSignout = async () => {
+    try {
+      await firebase.auth().signOut();
+      navigation.navigate("Auth");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return (
+    <View style={{ padding: 20, marginTop: 50 }}>
+      <Text style={{fontSize: 17, textAlign: "center", margin: 20, }}>
+        Home Screen
+      </Text>
+      <Button
+        title="Signout"
+        onPress={handleSignout}
+        titleStyle={{
+          color: "#F57C00"
+        }}
+        type="clear"
+      />
+    </View>
+  )
+}
+
+const LoginScreen = () => {
   const recaptchaVerifier = React.useRef(null);
   const [phoneNumber, setPhoneNumber] = React.useState();
   const [verificationId, setVerificationId] = React.useState();
@@ -84,7 +127,6 @@ export default function App() {
               verificationCode
             );
             await firebase.auth().signInWithCredential(credential);
-            showMessage({ text: "Phone authentication successful 👍" });
           } catch (err) {
             showMessage({ text: `Error: ${err.message}`, color: "red" });
           }
@@ -101,4 +143,22 @@ export default function App() {
       ) : undefined}
     </View>
   );
+
+}
+
+const SwitchNavigator = createSwitchNavigator(
+  {
+    Initial: InitialScreen,
+    Login: LoginScreen,
+    Home: HomeScreen
+  },
+  {
+    initialRouteName: "Initial"
+  }
+);
+
+const AppContainer = createAppContainer(SwitchNavigator);
+
+export default () => {
+  return <AppContainer />
 }
