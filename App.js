@@ -35,7 +35,18 @@ const InitialScreen = ({ navigation }) => {
   return <AppLoading />
 }
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
+  useEffect(() => {
+    console.log(storageRef);
+    const listAllImages = async () => {
+      const storageRef = firebase.storage().ref();
+      console.log(storageRef);
+      const result = storageRef.listAll()
+      result.items.forEach(item => console.log(item));
+    }
+    listAllImages();
+  }, []);
+
   const handleSignout = async () => {
     try {
       await firebase.auth().signOut();
