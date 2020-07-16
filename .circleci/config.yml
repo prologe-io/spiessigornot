@@ -4,7 +4,7 @@ orbs:
   node: 'circleci/node@3.0.1'
 
 jobs:
-  test:
+  build-and-publish:
     executor:
       name: node/default
       tag: '13'
