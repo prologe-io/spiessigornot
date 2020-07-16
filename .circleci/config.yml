@@ -7,7 +7,6 @@ jobs:
   build-and-publish:
     executor:
       name: node/default
-      tag: '13'
     steps:
       - checkout
       - node/install-packages:
