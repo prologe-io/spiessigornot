@@ -1,0 +1,26 @@
+version: 2.1
+
+orbs:
+  node: 'circleci/node@3.0.1'
+
+jobs:
+  build-and-publish:
+    executor:
+      name: node/default
+      tag: '14.5'
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run:
+          command: npx expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+          name: Expo Login
+      - run:
+          command: npx expo publish --non-interactive --max-workers 1
+          name: Expo Publish
+
+
+workflows:
+  build-and-publish:
+    jobs:
+      - build-and-publish
