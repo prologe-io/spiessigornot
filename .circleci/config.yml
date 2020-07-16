@@ -13,9 +13,6 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
       - run:
-          command: yarn global add expo-cli
-          name: Install Expo
-      - run:
           command: npx expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
           name: Expo Login
       - run:
