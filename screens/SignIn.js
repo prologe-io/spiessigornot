@@ -3,6 +3,8 @@ import { View, TextInput, Button, Text } from "react-native";
 
 import { useFirebase } from "react-redux-firebase";
 
+import * as Facebook from 'expo-facebook';
+
 export default ({ navigation }) => {
   const firebase = useFirebase();
 
@@ -11,6 +13,15 @@ export default ({ navigation }) => {
 
   const signIn = () => {
     firebase.login({email, password});
+  }
+
+  const signInFacebook = async () => {
+    const data = await Facebook.logInWithReadPermissionsAsync('282533162846455', { permissions: ['public_profile', 'email'] })
+
+    if (data.type === 'success') {
+      const credential = firebase.auth.FacebookAuthProvider.credential(data.token)
+      await firebase.login({ credential })
+    }
   }
 
   const signUp = () => {
@@ -31,6 +42,7 @@ export default ({ navigation }) => {
         secureTextEntry
       />
       <Button title="Sign In" onPress={signIn} />
+      <Button title="Sign In with Facebook" onPress={signInFacebook} />
       <Button title="Sign Up" onPress={signUp} />
     </View>
   );

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
+
 import * as firebase from "firebase";
+import * as Facebook from 'expo-facebook';
 
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, compose } from 'redux';
@@ -26,6 +28,8 @@ const fbConfig = {
 };
 
 firebase.initializeApp(fbConfig);
+
+Facebook.initializeAsync('282533162846455')
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer
