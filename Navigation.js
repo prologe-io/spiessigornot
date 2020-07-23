@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 
 import Feed from "./screens/Feed";
+import Upload from "./screens/Upload";
 import SignUp from "./screens/SignUp";
 import SignIn from "./screens/SignIn";
 
@@ -21,6 +22,10 @@ export default () => {
   const profile = useSelector((state) => state.firebase.profile);
   const isSignedIn = isLoaded(auth) && !isEmpty(auth);
 
+  if (!isLoaded(auth)) {
+    return <AppLoading />
+  };
+
   if (isSignedIn && !isLoaded(profile)) {
     return <AppLoading />
   };
@@ -31,6 +36,7 @@ export default () => {
         {isSignedIn ? (
           <>
             <Stack.Screen name="Feed" component={Feed} />
+            <Stack.Screen name="Upload" component={Upload} />
           </>
         ) : (
           <>
