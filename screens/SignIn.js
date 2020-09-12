@@ -3,9 +3,8 @@ import { View, TextInput, Button, Text } from "react-native";
 
 import { useFirebase } from "react-redux-firebase";
 
-import * as Facebook from 'expo-facebook';
 
-export default ({ navigation }) => {
+export default () => {
   const firebase = useFirebase();
 
   const [email, setEmail] = useState('');
@@ -16,10 +15,11 @@ export default ({ navigation }) => {
   }
 
 
-
-  const signUp = () => {
-    navigation.navigate('Sign Up');
+  const signUp = async () => {
+    await firebase.createUser({email, password});
+    await firebase.login({email, password});
   }
+
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

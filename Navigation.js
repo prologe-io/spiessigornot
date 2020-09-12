@@ -1,50 +1,40 @@
 import React from "react";
-import { View } from "react-native";
 import { AppLoading } from "expo";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import { NavigationContainer } from "@react-navigation/native";
 
 import { useSelector } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 
 import Feed from "./screens/Feed";
-import Upload from "./screens/Upload";
-import SignUp from "./screens/SignUp";
 import SignIn from "./screens/SignIn";
-
-const Stack = createStackNavigator();
+import Upload from "./screens/Upload";
+const Tab = createBottomTabNavigator();
 
 export default () => {
   const auth = useSelector(
-    (state: any) => state.firebase.auth,
+    (state) => state.firebase.auth,
     () => false
   );
   const profile = useSelector((state) => state.firebase.profile);
   const isSignedIn = isLoaded(auth) && !isEmpty(auth);
 
   if (!isLoaded(auth)) {
-    return <AppLoading />
-  };
+    return <AppLoading />;
+  }
 
   if (isSignedIn && !isLoaded(profile)) {
-    return <AppLoading />
-  };
+    return <AppLoading />;
+  }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {isSignedIn ? (
-          <>
-            <Stack.Screen name="Feed" component={Feed} />
-            <Stack.Screen name="Upload" component={Upload} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="Sign In" component={SignIn} />
-            <Stack.Screen name="Sign Up" component={SignUp} />
-          </>
-        )}
-      </Stack.Navigator>
+      <Tab.Navigator>
+        <Tab.Screen name="Top Spießig" component={Feed} />
+        {isSignedIn && <Tab.Screen name="Submit" component={Upload} />}
+        {!isSignedIn && <Tab.Screen name="Login" component={SignIn} />}
+      </Tab.Navigator>
     </NavigationContainer>
   );
-}
+};
