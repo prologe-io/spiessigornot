@@ -15,14 +15,7 @@ export default ({ navigation }) => {
     firebase.login({email, password});
   }
 
-  const signInFacebook = async () => {
-    const data = await Facebook.logInWithReadPermissionsAsync('282533162846455', { permissions: ['public_profile', 'email'] })
 
-    if (data.type === 'success') {
-      const credential = firebase.auth.FacebookAuthProvider.credential(data.token)
-      await firebase.login({ credential })
-    }
-  }
 
   const signUp = () => {
     navigation.navigate('Sign Up');
@@ -42,7 +35,6 @@ export default ({ navigation }) => {
         secureTextEntry
       />
       <Button title="Sign In" onPress={signIn} />
-      <Button title="Sign In with Facebook" onPress={signInFacebook} />
       <Button title="Sign Up" onPress={signUp} />
     </View>
   );

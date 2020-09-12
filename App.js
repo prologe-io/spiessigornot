@@ -27,9 +27,7 @@ const fbConfig = {
   appId: "1:104778066778:web:875cbdddacd671d2046163"
 };
 
-firebase.initializeApp(fbConfig);
-
-Facebook.initializeAsync('282533162846455')
+firebase.initializeApp(fbConfig)
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer
