@@ -12,6 +12,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from "react-native";
 import uuid from "uuid";
@@ -23,6 +24,7 @@ class App extends React.Component {
   state = {
     image: null,
     uploading: false,
+    name: "",
   };
 
   async componentDidMount() {
@@ -48,6 +50,10 @@ class App extends React.Component {
           </Text>
         )}
 
+        <TextInput
+          onChangeText={(value) => this.setState({ name: value })}
+          value={this.state.name}
+        ></TextInput>
         <Button
           onPress={this._pickImage}
           title="Pick an image from camera roll"
@@ -160,7 +166,7 @@ class App extends React.Component {
         const uploadUrl = await uploadImageAsync(pickerResult.uri);
         // only able to set a single picture at the moment
         await this.props.firebase.push("gegenstand", {
-          name: "salatschleuder",
+          name: this.state.name,
           votes: 0,
           photo: uploadUrl,
         });
