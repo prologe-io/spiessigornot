@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 export default () => {
   const firestore = useFirestore();
-  useFirestoreConnect(() => [{ collection: "spiessigItem" }]);
+  useFirestoreConnect(() => [{ collection: "spiessigItem", orderBy: ['votes', 'desc'] }]);
   const gegenstand = useSelector(
     (state) => state.firestore.ordered.spiessigItem
   );
