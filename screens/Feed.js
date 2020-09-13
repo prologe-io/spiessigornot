@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 
 export default () => {
   const firestore = useFirestore();
-  useFirestoreConnect(() => [{ collection: "spiessigItem", orderBy: ['votes', 'desc'] }]);
+  useFirestoreConnect(() => [
+    { collection: "spiessigItem", orderBy: ["votes"] },
+  ]);
   const gegenstand = useSelector(
     (state) => state.firestore.ordered.spiessigItem
   );
@@ -21,7 +23,7 @@ export default () => {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       {gegenstand &&
         gegenstand.map((item, index) => (
-          <View key={item.key}>
+          <View key={item.id}>
             <Text>
               {index + 1}. {item.name} - {item.votes} votes
             </Text>
@@ -30,7 +32,7 @@ export default () => {
               source={item.photo}
             />
             <Button
-              onPress={() => handleUpVote(item.key, item.votes)}
+              onPress={() => handleUpVote(item.id, item.votes)}
               title={`✨`}
             />
           </View>

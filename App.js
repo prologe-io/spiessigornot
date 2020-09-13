@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import * as firebase from "firebase";
+import firebase from "firebase";
+import "firebase/firestore";
 
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, compose } from 'redux';
