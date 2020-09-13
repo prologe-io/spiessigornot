@@ -29,7 +29,7 @@ export default () => {
             </Text>
             <Image
               style={{ minWidth: 100, minHeight: 100 }}
-              source={item.photo}
+              source={{uri: item.photo}}
             />
             <Button
               onPress={() => handleUpVote(item.id, item.votes)}
