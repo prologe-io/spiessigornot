@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 export default () => {
   const firestore = useFirestore();
   useFirestoreConnect(() => [
-    { collection: "spiessigItem", orderBy: ["votes"] },
+    { collection: "spiessigItem", orderBy: ["votes"]},
   ]);
   const gegenstand = useSelector(
     (state) => state.firestore.ordered.spiessigItem
@@ -16,9 +16,10 @@ export default () => {
     firestore
       .collection("spiessigItem")
       .doc(key)
-      .update({ votes: votes + 1 });
+      .set({ id: key, votes: votes + 1 }, {merge: true});
   };
 
+  console.log(gegenstand)
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       {gegenstand &&
