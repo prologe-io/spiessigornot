@@ -1,7 +1,7 @@
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
-import * as firebase from "firebase";
-import { withFirebase } from "react-redux-firebase";
+import firebase from "firebase";
+import { withFirebase, withFirestore } from "react-redux-firebase";
 import React from "react";
 import {
   ActivityIndicator,
@@ -53,6 +53,7 @@ class App extends React.Component {
         <TextInput
           onChangeText={(value) => this.setState({ name: value })}
           value={this.state.name}
+          style={{ marginBottom: 64, backgroundColor: "green", width: "100%" }}
         ></TextInput>
         <Button
           onPress={this._pickImage}
@@ -165,7 +166,7 @@ class App extends React.Component {
       if (!pickerResult.cancelled) {
         const uploadUrl = await uploadImageAsync(pickerResult.uri);
         // only able to set a single picture at the moment
-        await this.props.firebase.push("gegenstand", {
+        await this.props.firestore.collection("spiessigItem").add({
           name: this.state.name,
           votes: 0,
           photo: uploadUrl,
@@ -207,4 +208,4 @@ async function uploadImageAsync(uri) {
 
   return await snapshot.ref.getDownloadURL();
 }
-export default withFirebase(App);
+export default withFirestore(App);

@@ -8,27 +8,35 @@ import {
   ReactReduxFirebaseProvider,
   firebaseReducer
 } from 'react-redux-firebase';
+import { createFirestoreInstance, firestoreReducer } from 'redux-firestore'
 
 import AppNavigation from "./Navigation";
 
 const rrfConfig = {
-  userProfile: 'users'
+  userProfile: 'users',
+  useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+
+};
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const fbConfig = {
+  apiKey: "AIzaSyA3nsZRSB4LXufr9nv6cbmslxULV6_QJzQ",
+  authDomain: "spiessigornot.firebaseapp.com",
+  databaseURL: "https://spiessigornot.firebaseio.com",
+  projectId: "spiessigornot",
+  storageBucket: "spiessigornot.appspot.com",
+  messagingSenderId: "83133423506",
+  appId: "1:83133423506:web:5a30d051d388cb3c2eab4b",
+  measurementId: "G-F3SCTWYPKK"
 };
 
-const fbConfig = {
-  apiKey: "AIzaSyDzE6TjEKpqAwaCD7DUQHuu0udEe4JoRQ8",
-  authDomain: "expo-firebase-auth-718eb.firebaseapp.com",
-  databaseURL: "https://expo-firebase-auth-718eb.firebaseio.com",
-  projectId: "expo-firebase-auth-718eb",
-  storageBucket: "expo-firebase-auth-718eb.appspot.com",
-  messagingSenderId: "104778066778",
-  appId: "1:104778066778:web:875cbdddacd671d2046163"
-};
 
 firebase.initializeApp(fbConfig)
+firebase.firestore()
 
 const rootReducer = combineReducers({
-  firebase: firebaseReducer
+  firebase: firebaseReducer,
+  firestore: firestoreReducer // <- needed if using firestore
+
 })
 
 const store = createStore(
@@ -39,7 +47,8 @@ const store = createStore(
 const rrfProps = {
   firebase,
   config: rrfConfig,
-  dispatch: store.dispatch
+  dispatch: store.dispatch,
+  createFirestoreInstance // <- needed if using firestore
 }
 
 export default () => {

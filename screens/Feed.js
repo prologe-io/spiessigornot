@@ -1,17 +1,21 @@
 import React from "react";
 import { View, Text, Image, Button } from "react-native";
-import { useFirebase, useFirebaseConnect } from "react-redux-firebase";
+import { useFirestore, useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 
 export default () => {
-  useFirebaseConnect("gegenstand");
-  const firebase = useFirebase()
-  const gegenstand = useSelector((state) => state.firebase.ordered.gegenstand);
+  const firestore = useFirestore();
+  useFirestoreConnect(() => [{ collection: "spiessigItem" }]);
+  const gegenstand = useSelector(
+    (state) => state.firestore.ordered.spiessigItem
+  );
 
   const handleUpVote = (key, votes) => {
-    firebase.update(`gegenstand/${key}`, {votes:  votes + 1})
-
-  }
+    firestore
+      .collection("spiessigItem")
+      .doc(key)
+      .update({ votes: votes + 1 });
+  };
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -19,15 +23,16 @@ export default () => {
         gegenstand.map((item, index) => (
           <View key={item.key}>
             <Text>
-              {index + 1}. {item.value.name} - {item.value.votes} votes
+              {index + 1}. {item.name} - {item.votes} votes
             </Text>
             <Image
-              style={{ minWidth: 100, minHeight: 100}}
-              source={{
-                uri: item.value.photo,
-              }}
+              style={{ minWidth: 100, minHeight: 100 }}
+              source={item.photo}
             />
-            <Button onPress={() => handleUpVote(item.key, item.value.votes)} title={`✨`}/>
+            <Button
+              onPress={() => handleUpVote(item.key, item.votes)}
+              title={`✨`}
+            />
           </View>
         ))}
     </View>
