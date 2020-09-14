@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 
 import Feed from "./screens/Feed";
+import Ranking from './screens/Ranking'
 import SignIn from "./screens/SignIn";
 import Upload from "./screens/Upload";
 const Tab = createBottomTabNavigator();
@@ -31,7 +32,8 @@ export default () => {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Top Spießig" component={Feed} />
+        <Tab.Screen name="Ranking" component={Ranking} />
+        <Tab.Screen name="Play" component={Feed} />
         {isSignedIn && <Tab.Screen name="Submit" component={Upload} />}
         {!isSignedIn && <Tab.Screen name="Login" component={SignIn} />}
       </Tab.Navigator>
