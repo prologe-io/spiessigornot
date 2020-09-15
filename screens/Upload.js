@@ -17,9 +17,13 @@ import {
 } from "react-native";
 import uuid from "uuid";
 
-// Firebase sets some timeers for a long period, which will trigger some warnings. Let's turn that off for this example
-console.disableYellowBox = true;
+const getRandomNumber = () => {
+  const min = Math.ceil(Number.MIN_VALUE);
+  const max = Math.ceil(Number.MAX_VALUE);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
+console.disableYellowBox = true;
 class App extends React.Component {
   state = {
     image: null,
@@ -36,7 +40,14 @@ class App extends React.Component {
     let { image } = this.state;
 
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View
+        style={{
+          backgroundColor: "pink",
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         {!!image && (
           <Text
             style={{
@@ -46,27 +57,37 @@ class App extends React.Component {
               marginHorizontal: 15,
             }}
           >
-            Example: Upload ImagePicker result
+            Spießig successfuly added!
           </Text>
         )}
 
-        <TextInput
-          onChangeText={(value) => this.setState({ name: value })}
-          value={this.state.name}
-          style={{ marginBottom: 64, backgroundColor: "green", width: "100%" }}
-        ></TextInput>
+        <View style={styles.buttonContainer}>
+          <TextInput
+            placeholder="Enter spießig name"
+            onChangeText={(value) => this.setState({ name: value })}
+            value={this.state.name}
+            style={{
+              height: 30,
+              marginBottom: 64,
+              backgroundColor: "white",
+              width: "100%",
+            }}
+          ></TextInput>
+        </View>
 
-        <Button
-          style={styles.button}
-          onPress={this._pickImage}
-          title="Pick an image from camera roll"
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            disabled={this.state.name.length === 0}
+            onPress={this._pickImage}
+            title="Camera Roll"
+          />
 
-        <Button
-          style={styles.button}
-          onPress={this._takePhoto}
-          title="Take a photo"
-        />
+          <Button
+            disabled={this.state.name.length === 0}
+            onPress={this._takePhoto}
+            title="Take a photo"
+          />
+        </View>
 
         {this._maybeRenderImage()}
         {this._maybeRenderUploadingOverlay()}
@@ -123,28 +144,8 @@ class App extends React.Component {
         >
           <Image source={{ uri: image }} style={{ width: 250, height: 250 }} />
         </View>
-        <Text
-          onPress={this._copyToClipboard}
-          onLongPress={this._share}
-          style={{ paddingVertical: 10, paddingHorizontal: 10 }}
-        >
-          {image}
-        </Text>
       </View>
     );
-  };
-
-  _share = () => {
-    Share.share({
-      message: this.state.image,
-      title: "Check out this photo",
-      url: this.state.image,
-    });
-  };
-
-  _copyToClipboard = () => {
-    Clipboard.setString(this.state.image);
-    alert("Copied image URL to clipboard");
   };
 
   _takePhoto = async () => {
@@ -174,8 +175,8 @@ class App extends React.Component {
         // only able to set a single picture at the moment
         await this.props.firestore.collection("spiessigItem").add({
           name: this.state.name,
-          votes: 0,
           photo: uploadUrl,
+          random: getRandomNumber(),
         });
         this.setState({ image: uploadUrl });
       }
@@ -224,5 +225,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 33,
     borderBottomLeftRadius: 33,
     backgroundColor: "#3366FF",
+  },
+  buttonContainer: {
+    width: 350,
   },
 });

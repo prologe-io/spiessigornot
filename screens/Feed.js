@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  Button,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useFirestore, useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
@@ -43,6 +35,7 @@ export default () => {
   };
 
   const isSignedIn = isLoaded(auth) && !isEmpty(auth);
+
   const item1 = gegenstand[0];
   const item2 = gegenstand[4];
 
@@ -64,10 +57,9 @@ export default () => {
           <Image style={styles.image} source={{ uri: item1.photo }} />
 
           <Text style={styles.text}>{item1.name || "unamed"}</Text>
-          <Button
-            onPress={() => handleUpVote(item1.id, item1.votes)}
-            title={`✨This is Spießig!✨`}
-          />
+          <TouchableOpacity onPress={() => handleUpVote(item1.id, item1.votes)}>
+            <Text>✨This is Spießig!✨</Text>
+          </TouchableOpacity>
         </View>
         <Text style={{ color: "white" }}>OR</Text>
 
@@ -75,10 +67,9 @@ export default () => {
           <Image style={styles.image} source={{ uri: item2.photo }} />
 
           <Text style={styles.text}>{item2.name || "unamed"}</Text>
-          <Button
-            onPress={() => handleUpVote(item2.id, item2.votes)}
-            title={`✨This is Spießig!✨`}
-          />
+          <TouchableOpacity onPress={() => handleUpVote(item2.id, item2.votes)}>
+            <Text>✨This is Spießig!✨</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -104,5 +95,8 @@ const styles = StyleSheet.create({
   image: {
     height: 150,
     width: 150,
+  },
+  button: {
+    backgroundColor: "white",
   },
 });
