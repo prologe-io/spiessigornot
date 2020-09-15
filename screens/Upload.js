@@ -84,7 +84,7 @@ class App extends React.Component {
         <TouchableOpacity
           style={!isDisabled ? styles.button : styles.buttonDisabled}
           disabled={isDisabled}
-          onPress={this._handleImagePicked}
+          onPress={() => this._handleImagePicked(this.state.pickerResult)}
         >
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
