@@ -35,7 +35,7 @@ export const Contender = () => {
     <View style={styles.scrollView}>
       {contenders.map((contender) => {
         return (
-          <View key={contender.id} style={{ minHeight: 200 }}>
+          <View key={contender.id} >
             <TouchableOpacity>
               <Image style={styles.image} source={{ uri: contender.photo }} />
 
@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
     color: "white",
   },
   image: {
-    height: 150,
-    width: 150,
+    height: 170,
+    width: 170,
   },
   button: {
     backgroundColor: "white",
