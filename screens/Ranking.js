@@ -3,24 +3,23 @@ import {
   View,
   Text,
   Image,
-  Button,
   SafeAreaView,
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { useFirestore, useFirestoreConnect } from "react-redux-firebase";
+import {  useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
 
 export default () => {
   useFirestoreConnect(() => [
-    { collection: "spiessigItem", orderBy: ["votes", "desc"] },
+    { collection: "units"},
   ]);
-  const gegenstand = useSelector(
-    (state) => state.firestore.ordered.spiessigItem
+  const units = useSelector(
+    (state) => state.firestore.ordered.units
   );
 
-  if (gegenstand && gegenstand.length === 0) {
+  if (units && units.length === 0) {
     return "Loading";
   }
 
@@ -36,12 +35,12 @@ export default () => {
             flexWrap: "wrap",
           }}
         >
-          {gegenstand &&
-            gegenstand.length > 0 &&
-            gegenstand.map((item, index) => (
+          {units &&
+            units.length > 0 &&
+            units.map((item, index) => (
               <View key={item.id}>
                 <Text>
-                  {index + 1}. {item.name} - {item.votes} votes
+                  {index + 1}. {item.name}
                 </Text>
                 <Image
                   style={{
