@@ -6,13 +6,12 @@ import React from "react";
 import {
   ActivityIndicator,
   Button,
-  Clipboard,
   Image,
-  Share,
   StatusBar,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import uuid from "uuid";
@@ -26,7 +25,7 @@ const getRandomNumber = () => {
 console.disableYellowBox = true;
 class App extends React.Component {
   state = {
-    image: null,
+    image: "",
     uploading: false,
     name: "",
   };
@@ -37,8 +36,9 @@ class App extends React.Component {
   }
 
   render() {
-    let { image } = this.state;
+    let { image, name } = this.state;
 
+    const isDisabled = image.length === 0 || name.length === 0;
     return (
       <View
         style={{
@@ -76,18 +76,18 @@ class App extends React.Component {
         </View>
 
         <View style={styles.buttonContainer}>
-          <Button
-            disabled={this.state.name.length === 0}
-            onPress={this._pickImage}
-            title="Camera Roll"
-          />
+          <Button onPress={this._pickImage} title="Camera Roll" />
+          <View style={{ height: 24 }}></View>
 
-          <Button
-            disabled={this.state.name.length === 0}
-            onPress={this._takePhoto}
-            title="Take a photo"
-          />
+          <Button onPress={this._takePhoto} title="Take a photo" />
         </View>
+        <TouchableOpacity
+          style={!isDisabled ? styles.button : styles.buttonDisabled}
+          disabled={isDisabled}
+          onPress={this._handleImagePicked}
+        >
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
 
         {this._maybeRenderImage()}
         {this._maybeRenderUploadingOverlay()}
@@ -154,7 +154,7 @@ class App extends React.Component {
       aspect: [4, 3],
     });
 
-    this._handleImagePicked(pickerResult);
+    this.setState({ pickerResult, image: pickerResult.uri });
   };
 
   _pickImage = async () => {
@@ -162,8 +162,7 @@ class App extends React.Component {
       allowsEditing: true,
       aspect: [4, 3],
     });
-
-    this._handleImagePicked(pickerResult);
+    this.setState({ pickerResult, image: pickerResult.uri });
   };
 
   _handleImagePicked = async (pickerResult) => {
@@ -173,7 +172,7 @@ class App extends React.Component {
       if (!pickerResult.cancelled) {
         const uploadUrl = await uploadImageAsync(pickerResult.uri);
         // only able to set a single picture at the moment
-        await this.props.firestore.collection("spiessigItem").add({
+        await this.props.firestore.collection("units").add({
           name: this.state.name,
           photo: uploadUrl,
           random: getRandomNumber(),
@@ -225,6 +224,28 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 33,
     borderBottomLeftRadius: 33,
     backgroundColor: "#3366FF",
+    marginTop: 24,
+    marginBottom: 24,
+    minWidth: 150,
+    minHeight: 30,
+  },
+  buttonDisabled: {
+    filter: "drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.25))",
+    borderTopLeftRadius: 33,
+    borderTopRightRadius: 33,
+    borderBottomRightRadius: 33,
+    borderBottomLeftRadius: 33,
+    backgroundColor: "grey",
+    marginTop: 24,
+    marginBottom: 24,
+    minWidth: 150,
+    minHeight: 30,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    textAlignVertical: "center",
   },
   buttonContainer: {
     width: 350,
