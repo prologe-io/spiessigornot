@@ -11,6 +11,7 @@ import {
 import { useFirestore, useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
+import { isLoaded, isEmpty } from "react-redux-firebase";
 
 const getRandomNumber = () => {
   const min = Math.ceil(Number.MIN_VALUE);
@@ -20,9 +21,16 @@ const getRandomNumber = () => {
 
 export default () => {
   const firestore = useFirestore();
+
   useFirestoreConnect(() => [
     { collection: "spiessigItem", orderBy: ["votes", "desc"] },
   ]);
+
+  const auth = useSelector(
+    (state) => state.firebase.auth,
+    () => false
+  );
+
   const gegenstand = useSelector(
     (state) => state.firestore.ordered.spiessigItem
   );
@@ -34,11 +42,16 @@ export default () => {
       .set({ id: key, votes: votes + 1 }, { merge: true });
   };
 
+  const isSignedIn = isLoaded(auth) && !isEmpty(auth);
   const item1 = gegenstand[0];
   const item2 = gegenstand[4];
+
+  if (!isSignedIn) {
+    return <Text>Sign In to be able to vote</Text>;
+  }
   return (
-    <View>
-      <Text>What is more Spiessig</Text>
+    <View style={styles.scrollView}>
+      <Text style={styles.title}>What is more Spiessig</Text>
       <View
         style={{
           flex: 1,
@@ -47,32 +60,49 @@ export default () => {
           flexDirection: "row",
         }}
       >
-        <View key={item1.id}>
-          <Text>{item1.name}</Text>
-          <Image
-            style={{ width: 300, height: 300 }}
-            source={{ uri: item1.photo }}
-          />
+        <View style={{ minHeight: 200 }}>
+          <Image style={styles.image} source={{ uri: item1.photo }} />
 
+          <Text style={styles.text}>{item1.name || "unamed"}</Text>
           <Button
             onPress={() => handleUpVote(item1.id, item1.votes)}
-            title={`✨`}
+            title={`✨This is Spießig!✨`}
           />
         </View>
-        <Text>vs</Text>
-        <View key={item2.id}>
-          <Text>{item2.name}</Text>
-          <Image
-            style={{ width: 300, height: 300 }}
-            source={{ uri: item2.photo }}
-          />
+        <Text style={{ color: "white" }}>OR</Text>
 
+        <View style={{ minHeight: 200 }}>
+          <Image style={styles.image} source={{ uri: item2.photo }} />
+
+          <Text style={styles.text}>{item2.name || "unamed"}</Text>
           <Button
             onPress={() => handleUpVote(item2.id, item2.votes)}
-            title={`✨`}
+            title={`✨This is Spießig!✨`}
           />
         </View>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: Constants.statusBarHeight,
+  },
+  scrollView: {
+    backgroundColor: "pink",
+    flex: 1,
+  },
+  text: {
+    color: "white",
+  },
+  title: {
+    fontSize: 42,
+    color: "white",
+  },
+  image: {
+    height: 150,
+    width: 150,
+  },
+});

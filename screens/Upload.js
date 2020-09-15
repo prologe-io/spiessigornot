@@ -55,12 +55,18 @@ class App extends React.Component {
           value={this.state.name}
           style={{ marginBottom: 64, backgroundColor: "green", width: "100%" }}
         ></TextInput>
+
         <Button
+          style={styles.button}
           onPress={this._pickImage}
           title="Pick an image from camera roll"
         />
 
-        <Button onPress={this._takePhoto} title="Take a photo" />
+        <Button
+          style={styles.button}
+          onPress={this._takePhoto}
+          title="Take a photo"
+        />
 
         {this._maybeRenderImage()}
         {this._maybeRenderUploadingOverlay()}
@@ -209,3 +215,14 @@ async function uploadImageAsync(uri) {
   return await snapshot.ref.getDownloadURL();
 }
 export default withFirestore(App);
+
+const styles = StyleSheet.create({
+  button: {
+    filter: "drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.25))",
+    borderTopLeftRadius: 33,
+    borderTopRightRadius: 33,
+    borderBottomRightRadius: 33,
+    borderBottomLeftRadius: 33,
+    backgroundColor: "#3366FF",
+  },
+});
