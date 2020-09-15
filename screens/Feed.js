@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useFirestore, useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
@@ -11,37 +11,56 @@ const getRandomNumber = () => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-export default () => {
+export const Contender = () => {
   const firestore = useFirestore();
+  const [contender, setContender] = useState({});
 
-  useFirestoreConnect(() => [
-    { collection: "spiessigItem", orderBy: ["votes", "desc"] },
-  ]);
+  useEffect(() => {
+    const getRandomDocument = async () => {
+      const querySnapshot = await firestore
+        .collection("units")
+        .where("random", ">=", getRandomNumber())
+        .orderBy("random")
+        .limit(1)
+        .get();
+      let contender;
+      querySnapshot.forEach((doc) => (contender = doc.data()));
+      setContender(contender);
+    };
+    getRandomDocument();
+  }, []);
 
+  const contenders = [contender];
+  return (
+    <View style={styles.scrollView}>
+      {contenders.map((contender) => {
+        return (
+          <View key={contender.id} style={{ minHeight: 200 }}>
+            <Image style={styles.image} source={{ uri: contender.photo }} />
+
+            <Text style={styles.text}>{contender.name || "unamed"}</Text>
+            <TouchableOpacity>
+              <Text>✨This is Spießig!✨</Text>
+            </TouchableOpacity>
+          </View>
+        );
+      })}
+    </View>
+  );
+};
+
+export default () => {
   const auth = useSelector(
     (state) => state.firebase.auth,
     () => false
   );
 
-  const gegenstand = useSelector(
-    (state) => state.firestore.ordered.spiessigItem
-  );
-
-  const handleUpVote = (key, votes) => {
-    firestore
-      .collection("spiessigItem")
-      .doc(key)
-      .set({ id: key, votes: votes + 1 }, { merge: true });
-  };
-
   const isSignedIn = isLoaded(auth) && !isEmpty(auth);
-
-  const item1 = gegenstand[0];
-  const item2 = gegenstand[4];
 
   if (!isSignedIn) {
     return <Text>Sign In to be able to vote</Text>;
   }
+
   return (
     <View style={styles.scrollView}>
       <Text style={styles.title}>What is more Spiessig</Text>
@@ -53,24 +72,10 @@ export default () => {
           flexDirection: "row",
         }}
       >
-        <View style={{ minHeight: 200 }}>
-          <Image style={styles.image} source={{ uri: item1.photo }} />
+        <Contender />
 
-          <Text style={styles.text}>{item1.name || "unamed"}</Text>
-          <TouchableOpacity onPress={() => handleUpVote(item1.id, item1.votes)}>
-            <Text>✨This is Spießig!✨</Text>
-          </TouchableOpacity>
-        </View>
         <Text style={{ color: "white" }}>OR</Text>
-
-        <View style={{ minHeight: 200 }}>
-          <Image style={styles.image} source={{ uri: item2.photo }} />
-
-          <Text style={styles.text}>{item2.name || "unamed"}</Text>
-          <TouchableOpacity onPress={() => handleUpVote(item2.id, item2.votes)}>
-            <Text>✨This is Spießig!✨</Text>
-          </TouchableOpacity>
-        </View>
+        <Contender />
       </View>
     </View>
   );

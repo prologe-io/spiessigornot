@@ -1,6 +1,6 @@
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import { withFirebase, withFirestore } from "react-redux-firebase";
 import React from "react";
 import {
