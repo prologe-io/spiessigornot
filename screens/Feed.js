@@ -36,11 +36,10 @@ export const Contender = () => {
       {contenders.map((contender) => {
         return (
           <View key={contender.id} style={{ minHeight: 200 }}>
-            <Image style={styles.image} source={{ uri: contender.photo }} />
-
-            <Text style={styles.text}>{contender.name || "unamed"}</Text>
             <TouchableOpacity>
-              <Text>✨This is Spießig!✨</Text>
+              <Image style={styles.image} source={{ uri: contender.photo }} />
+
+              <Text style={styles.text}>{contender.name || "unamed"}</Text>
             </TouchableOpacity>
           </View>
         );
@@ -74,7 +73,7 @@ export default () => {
       >
         <Contender />
 
-        <Text style={{ color: "white" }}>OR</Text>
+        <Text style={{ color: "white", fontWeight: 'bold', fontSize: 24 }}>OR</Text>
         <Contender />
       </View>
     </View>
@@ -92,6 +91,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
+    textAlign: 'center'
   },
   title: {
     fontSize: 42,
