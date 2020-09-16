@@ -4,6 +4,7 @@ import { useFirestore, useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
 import { isLoaded, isEmpty } from "react-redux-firebase";
+import firebase from "firebase/app";
 
 const getRandomNumber = () => {
   const min = Math.ceil(Number.MIN_VALUE);
@@ -11,39 +12,55 @@ const getRandomNumber = () => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-export const Contender = () => {
-  const firestore = useFirestore();
-  const [contender, setContender] = useState({});
+const getRandomDocument = async () => {
+  const querySnapshot = await firebase
+    .firestore()
+    .collection("units")
+    .where("random", ">=", getRandomNumber())
+    .orderBy("random")
+    .limit(1)
+    .get();
+  let contender;
+  querySnapshot.forEach((doc) => (contender = { id: doc.id, ...doc.data() }));
+  return contender;
+};
+
+const Contender = ({ contender }) => {
+  return (
+    <View key={contender.id}>
+      <TouchableOpacity>
+        <Image style={styles.image} source={{ uri: contender.photo }} />
+
+        <Text style={styles.text}>{contender.name || "unamed"}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export const Contenders = () => {
+  const [contender1, setContender1] = useState([]);
+  const [contender2, setContender2] = useState([]);
 
   useEffect(() => {
-    const getRandomDocument = async () => {
-      const querySnapshot = await firestore
-        .collection("units")
-        .where("random", ">=", getRandomNumber())
-        .orderBy("random")
-        .limit(1)
-        .get();
-      let contender;
-      querySnapshot.forEach((doc) => (contender = doc.data()));
-      setContender(contender);
+    const initContender = async () => {
+      const result1 = await getRandomDocument();
+      const result2 = await getRandomDocument();
+      if (result2.id === result1.id) {
+        return initContender();
+      }
+      setContender1(result1);
+      setContender2(result2);
     };
-    getRandomDocument();
+    initContender();
   }, []);
 
-  const contenders = [contender];
   return (
     <View style={styles.scrollView}>
-      {contenders.map((contender) => {
-        return (
-          <View key={contender.id} >
-            <TouchableOpacity>
-              <Image style={styles.image} source={{ uri: contender.photo }} />
-
-              <Text style={styles.text}>{contender.name || "unamed"}</Text>
-            </TouchableOpacity>
-          </View>
-        );
-      })}
+      <Contender contender={contender1} />
+      <Text style={{ color: "white", fontWeight: "bold", fontSize: 24 }}>
+        OR
+      </Text>
+      <Contender contender={contender2} />
     </View>
   );
 };
@@ -71,10 +88,7 @@ export default () => {
           flexDirection: "row",
         }}
       >
-        <Contender />
-
-        <Text style={{ color: "white", fontWeight: 'bold', fontSize: 24 }}>OR</Text>
-        <Contender />
+        <Contenders />
       </View>
     </View>
   );
@@ -91,7 +105,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
-    textAlign: 'center'
   },
   title: {
     fontSize: 42,
