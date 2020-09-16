@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+} from "react-native";
 import { useFirestore, useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
@@ -55,7 +62,7 @@ export const Contenders = () => {
   }, []);
 
   return (
-    <View style={styles.scrollView}>
+    <View style={styles.contenderView}>
       <Contender contender={contender1} />
       <Text style={{ color: "white", fontWeight: "bold", fontSize: 24 }}>
         OR
@@ -78,19 +85,10 @@ export default () => {
   }
 
   return (
-    <View style={styles.scrollView}>
-      <Text style={styles.title}>What is more Spiessig</Text>
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "row",
-        }}
-      >
-        <Contenders />
-      </View>
-    </View>
+    <SafeAreaView style={styles.scrollView}>
+      <Text style={styles.title}>What is more Spiessig?</Text>
+      <Contenders />
+    </SafeAreaView>
   );
 };
 
@@ -99,8 +97,16 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Constants.statusBarHeight,
   },
+  contenderView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+  },
   scrollView: {
     backgroundColor: "pink",
+    justifyContent: "center",
+    alignItems: "center",
     flex: 1,
   },
   text: {

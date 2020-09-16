@@ -218,7 +218,6 @@ export default withFirestore(App);
 
 const styles = StyleSheet.create({
   button: {
-    filter: "drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.25))",
     borderTopLeftRadius: 33,
     borderTopRightRadius: 33,
     borderBottomRightRadius: 33,
@@ -230,7 +229,6 @@ const styles = StyleSheet.create({
     minHeight: 30,
   },
   buttonDisabled: {
-    filter: "drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.25))",
     borderTopLeftRadius: 33,
     borderTopRightRadius: 33,
     borderBottomRightRadius: 33,
