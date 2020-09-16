@@ -32,12 +32,11 @@ const getRandomDocument = async () => {
   return contender;
 };
 
-const Contender = ({ contender }) => {
+const Contender = ({ contender, onVote }) => {
   return (
     <View key={contender.id}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onVote}>
         <Image style={styles.image} source={{ uri: contender.photo }} />
-
         <Text style={styles.text}>{contender.name || "unamed"}</Text>
       </TouchableOpacity>
     </View>
@@ -45,6 +44,8 @@ const Contender = ({ contender }) => {
 };
 
 export const Contenders = () => {
+  const firestore = useFirestore();
+
   const [contender1, setContender1] = useState([]);
   const [contender2, setContender2] = useState([]);
 
@@ -61,13 +62,25 @@ export const Contenders = () => {
     initContender();
   }, []);
 
+  const handleVote = (winner, loser) => {
+    const increment = firebase.firestore.FieldValue.increment(1);
+    firestore.collection("units").doc(winner).update({ wins: increment });
+    firestore.collection("units").doc(loser).update({ losses: increment });
+  };
+
   return (
     <View style={styles.contenderView}>
-      <Contender contender={contender1} />
+      <Contender
+        contender={contender1}
+        onVote={() => handleVote(contender1.id, contender2.id)}
+      />
       <Text style={{ color: "white", fontWeight: "bold", fontSize: 24 }}>
         OR
       </Text>
-      <Contender contender={contender2} />
+      <Contender
+        contender={contender2}
+        onVote={() => handleVote(contender2.id, contender1.id)}
+      />
     </View>
   );
 };
