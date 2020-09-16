@@ -7,17 +7,15 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import {  useFirestoreConnect } from "react-redux-firebase";
+import { useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
 
 export default () => {
   useFirestoreConnect(() => [
-    { collection: "units"},
+    { collection: "units", orderBy: ["wins", "desc"] },
   ]);
-  const units = useSelector(
-    (state) => state.firestore.ordered.units
-  );
+  const units = useSelector((state) => state.firestore.ordered.units);
 
   if (units && units.length === 0) {
     return "Loading";
