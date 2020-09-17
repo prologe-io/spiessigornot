@@ -43,7 +43,6 @@ export default () => {
           <Tab.Screen name="Submit" component={Upload} />
         )}
         {!isSignedIn && <Tab.Screen name="Login" component={SignIn} />}
-
         <Tab.Screen name="Ranking" component={Ranking} />
       </Tab.Navigator>
     </NavigationContainer>

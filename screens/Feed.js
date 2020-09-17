@@ -35,7 +35,7 @@ const getRandomDocument = async () => {
 const Contender = ({ contender, onVote }) => {
   return (
     <View key={contender.id}>
-      <TouchableOpacity onPress={onVote}>
+      <TouchableOpacity style={{alignItems: 'center'}} onPress={onVote}>
         <Image style={styles.image} source={{ uri: contender.photo }} />
         <Text style={styles.text}>{contender.name || "unamed"}</Text>
       </TouchableOpacity>
@@ -48,9 +48,13 @@ export const Contenders = () => {
 
   const [contender1, setContender1] = useState([]);
   const [contender2, setContender2] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [round, setRound] = useState(0);
 
   useEffect(() => {
     const initContender = async () => {
+      setLoading(true);
+
       const result1 = await getRandomDocument();
       const result2 = await getRandomDocument();
       if (result2.id === result1.id) {
@@ -58,29 +62,36 @@ export const Contenders = () => {
       }
       setContender1(result1);
       setContender2(result2);
+
+      setLoading(false);
     };
     initContender();
-  }, []);
+  }, [round]);
 
   const handleVote = (winner, loser) => {
     const increment = firebase.firestore.FieldValue.increment(1);
     firestore.collection("units").doc(winner).update({ wins: increment });
     firestore.collection("units").doc(loser).update({ losses: increment });
+    setRound(round + 1);
   };
 
   return (
     <View style={styles.contenderView}>
-      <Contender
-        contender={contender1}
-        onVote={() => handleVote(contender1.id, contender2.id)}
-      />
-      <Text style={{ color: "white", fontWeight: "bold", fontSize: 24 }}>
-        OR
-      </Text>
-      <Contender
-        contender={contender2}
-        onVote={() => handleVote(contender2.id, contender1.id)}
-      />
+      {!loading && (
+        <>
+          <Contender
+            contender={contender1}
+            onVote={() => handleVote(contender1.id, contender2.id)}
+          />
+          <Text style={{ color: "white", fontWeight: "bold", fontSize: 24 }}>
+            OR
+          </Text>
+          <Contender
+            contender={contender2}
+            onVote={() => handleVote(contender2.id, contender1.id)}
+          />
+        </>
+      )}
     </View>
   );
 };
