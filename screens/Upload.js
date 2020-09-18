@@ -9,12 +9,13 @@ import {
   Image,
   StatusBar,
   StyleSheet,
-  Text,
-  TextInput,
   TouchableOpacity,
+  Text,
   View,
 } from "react-native";
 import uuid from "uuid";
+import Input from "../Input";
+import CustomButton from "../Button";
 
 const getRandomNumber = () => {
   const min = Math.ceil(Number.MIN_VALUE);
@@ -63,17 +64,12 @@ class App extends React.Component {
         )}
 
         <View style={styles.buttonContainer}>
-          <TextInput
+          <Input
             placeholder="Enter spießig name"
             onChangeText={(value) => this.setState({ name: value })}
             value={this.state.name}
-            style={{
-              height: 30,
-              marginBottom: 64,
-              backgroundColor: "white",
-              width: "100%",
-            }}
-          ></TextInput>
+            style={{width: '100%', marginBottom: 36}}
+         ></Input>
         </View>
 
         <View style={styles.buttonContainer}>
@@ -82,13 +78,13 @@ class App extends React.Component {
 
           <Button onPress={this._takePhoto} title="Take a photo" />
         </View>
-        <TouchableOpacity
-          style={!isDisabled ? styles.button : styles.buttonDisabled}
+        <CustomButton
+          primary
           disabled={isDisabled}
           onPress={() => this._handleImagePicked(this.state.pickerResult)}
         >
-          <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
+          Submit
+        </CustomButton>
 
         {this._maybeRenderImage()}
         {this._maybeRenderUploadingOverlay()}
@@ -179,7 +175,7 @@ class App extends React.Component {
           random: getRandomNumber(),
         });
         this.setState({ image: uploadUrl });
-        this.setState({isSubmitted: true})
+        this.setState({ isSubmitted: true });
       }
     } catch (e) {
       console.log(e);
@@ -229,7 +225,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     minWidth: 150,
     minHeight: 30,
-    justifyContent: 'center'
+    justifyContent: "center",
   },
   buttonDisabled: {
     borderTopLeftRadius: 33,
@@ -242,7 +238,7 @@ const styles = StyleSheet.create({
     minWidth: 150,
     minHeight: 30,
 
-    justifyContent: 'center'
+    justifyContent: "center",
   },
   buttonText: {
     color: "white",
