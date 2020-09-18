@@ -24,13 +24,16 @@ const getRandomNumber = () => {
 };
 
 console.disableYellowBox = true;
-class App extends React.Component {
-  state = {
+const initialState = {
+
     image: "",
     uploading: false,
     name: "",
     isSubmitted: false,
-  };
+  
+}
+class App extends React.Component {
+  state = initialState;
 
   async componentDidMount() {
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -41,16 +44,17 @@ class App extends React.Component {
     let { image, name } = this.state;
 
     const isDisabled = image.length === 0 || name.length === 0;
-    return (
-      <View
-        style={{
-          backgroundColor: "pink",
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {this.state.isSubmitted && (
+
+    if (this.state.isSubmitted) {
+      return (
+        <View
+          style={{
+            backgroundColor: "pink",
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Text
             style={{
               fontSize: 20,
@@ -61,8 +65,22 @@ class App extends React.Component {
           >
             Spießig successfuly added!
           </Text>
-        )}
+          <CustomButton primary onPress={() => this.setState(initialState)}>
+            Add another item
+          </CustomButton>
+        </View>
+      );
+    }
 
+    return (
+      <View
+        style={{
+          backgroundColor: "pink",
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <View style={styles.buttonContainer}>
           <Input
             placeholder="Enter spießig name"
@@ -128,7 +146,7 @@ class App extends React.Component {
           width: 250,
           borderRadius: 3,
           elevation: 2,
-          marginBottom: 30
+          marginBottom: 30,
         }}
       >
         <View

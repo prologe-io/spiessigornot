@@ -22,12 +22,10 @@ const SecondaryButton = styled.TouchableOpacity`
 
 const Text = styled.Text`
   color: white;
-  font-weight: bold;
 `;
 
 const SecondaryText = styled.Text`
   color: #2f80ed;
-  font-weight: bold;
 `;
 
 export default ({ children, primary, ...rest }) => {
