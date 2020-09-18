@@ -30,17 +30,17 @@ const SecondaryText = styled.Text`
   font-weight: bold;
 `;
 
-export default ({ children, primary, onPress }) => {
+export default ({ children, primary, ...rest }) => {
   if (primary) {
     return (
-      <PrimaryButton onPress={onPress}>
+      <PrimaryButton {...rest}>
         <Text>{children}</Text>
       </PrimaryButton>
     );
   }
 
   return (
-    <SecondaryButton onPress={onPress}>
+    <SecondaryButton {...rest}>
       <SecondaryText>{children}</SecondaryText>
     </SecondaryButton>
   );
