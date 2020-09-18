@@ -55,7 +55,7 @@ const Contender = ({ contender, onVote }) => {
   );
 };
 
-export const Contenders = () => {
+export const Contenders = ({ disabled }) => {
   const firestore = useFirestore();
 
   const [contender1, setContender1] = useState([]);
@@ -81,6 +81,9 @@ export const Contenders = () => {
   }, [round]);
 
   const handleVote = (winner, loser) => {
+    if (disabled) {
+      return;
+    }
     const increment = firebase.firestore.FieldValue.increment(1);
     firestore.collection("units").doc(winner).update({ wins: increment });
     firestore.collection("units").doc(loser).update({ losses: increment });
@@ -116,18 +119,17 @@ export default () => {
 
   const isSignedIn = isLoaded(auth) && !isEmpty(auth);
 
-  if (!isSignedIn) {
-    return <Text>Sign In to be able to vote</Text>;
-  }
-
   return (
     <SafeAreaView style={styles.container}>
       <Header />
 
       <ScrollView style={styles.scrollView}>
         <Text style={styles.title}>What is more Spiessig?</Text>
+        {!isSignedIn && (
+          <Text style={styles.title}>Sign up to be able to vote</Text>
+        )}
 
-        <Contenders />
+        <Contenders disabled={!isSignedIn} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 42,
     color: "white",
-    textAlign: 'center',
+    textAlign: "center",
     paddingBottom: 32,
   },
   image: {
