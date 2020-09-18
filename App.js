@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import firebase from "firebase/app";
-import "firebase/auth"
+import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
 
@@ -53,10 +54,12 @@ const rrfProps = {
 
 export default () => {
   return (
-      <Provider store={store}>
-        <ReactReduxFirebaseProvider {...rrfProps}>
+    <Provider store={store}>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <SafeAreaProvider>
           <AppNavigation />
-        </ReactReduxFirebaseProvider>
-      </Provider>
+        </SafeAreaProvider>
+      </ReactReduxFirebaseProvider>
+    </Provider>
   );
 };

@@ -7,6 +7,10 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
+
+import Header from "../Header";
+import { Card, CardTitle } from "../Card";
+
 import { useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
@@ -23,6 +27,7 @@ export default () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Header />
       <ScrollView style={styles.scrollView}>
         <View
           style={{
@@ -36,20 +41,18 @@ export default () => {
           {units &&
             units.length > 0 &&
             units.map((item, index) => (
-              <View key={item.id}>
-                <Text>
+              <Card style={{ marginBottom: 12 }} key={item.id}>
+                <CardTitle>
                   {index + 1}. {item.name}
-                </Text>
+                </CardTitle>
                 <Image
                   style={{
-                    margin: 24,
                     minWidth: 300,
                     minHeight: 300,
-                    boxShadow: "1px 4px 14px -2px rgba(0, 0, 0, 0.27)",
                   }}
                   source={{ uri: item.photo }}
                 />
-              </View>
+              </Card>
             ))}
         </View>
       </ScrollView>
@@ -64,6 +67,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     backgroundColor: "pink",
+    paddingTop: 16,
   },
   text: {
     fontSize: 42,
