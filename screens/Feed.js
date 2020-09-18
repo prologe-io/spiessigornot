@@ -7,6 +7,7 @@ import {
   StyleSheet,
   SafeAreaView,
 } from "react-native";
+import {Card, CardTitle} from '../Card'
 import { useFirestore, useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
@@ -35,9 +36,17 @@ const getRandomDocument = async () => {
 const Contender = ({ contender, onVote }) => {
   return (
     <View key={contender.id}>
-      <TouchableOpacity style={{alignItems: 'center'}} onPress={onVote}>
-        <Image style={styles.image} source={{ uri: contender.photo }} />
-        <Text style={styles.text}>{contender.name || "unamed"}</Text>
+      <TouchableOpacity style={{ alignItems: "center" }} onPress={onVote}>
+        <Card style={{ marginBottom: 12 }}>
+          <CardTitle>{contender.name}</CardTitle>
+          <Image
+            style={{
+              minWidth: 130,
+              minHeight: 130,
+            }}
+            source={{ uri: contender.photo }}
+          />
+        </Card>
       </TouchableOpacity>
     </View>
   );
