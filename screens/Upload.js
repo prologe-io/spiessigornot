@@ -68,8 +68,8 @@ class App extends React.Component {
             placeholder="Enter spießig name"
             onChangeText={(value) => this.setState({ name: value })}
             value={this.state.name}
-            style={{width: '100%', marginBottom: 36}}
-         ></Input>
+            style={{ width: "100%", marginBottom: 36 }}
+          ></Input>
         </View>
 
         <View style={styles.buttonContainer}>
@@ -78,17 +78,19 @@ class App extends React.Component {
 
           <Button onPress={this._takePhoto} title="Take a photo" />
         </View>
-        <CustomButton
-          primary
-          disabled={isDisabled}
-          onPress={() => this._handleImagePicked(this.state.pickerResult)}
-        >
-          Submit
-        </CustomButton>
 
         {this._maybeRenderImage()}
         {this._maybeRenderUploadingOverlay()}
 
+        {!isDisabled && (
+          <CustomButton
+            primary
+            disabled={isDisabled}
+            onPress={() => this._handleImagePicked(this.state.pickerResult)}
+          >
+            Submit
+          </CustomButton>
+        )}
         <StatusBar barStyle="default" />
       </View>
     );
@@ -126,6 +128,7 @@ class App extends React.Component {
           width: 250,
           borderRadius: 3,
           elevation: 2,
+          marginBottom: 30
         }}
       >
         <View
