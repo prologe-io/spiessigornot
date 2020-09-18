@@ -5,14 +5,17 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
   SafeAreaView,
 } from "react-native";
-import {Card, CardTitle} from '../Card'
+import { Card, CardTitle } from "../Card";
 import { useFirestore, useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import firebase from "firebase/app";
+
+import Header from "../Header";
 
 const getRandomNumber = () => {
   const min = Math.ceil(Number.MIN_VALUE);
@@ -41,8 +44,8 @@ const Contender = ({ contender, onVote }) => {
           <CardTitle>{contender.name}</CardTitle>
           <Image
             style={{
-              minWidth: 130,
-              minHeight: 130,
+              width: 180,
+              height: 180,
             }}
             source={{ uri: contender.photo }}
           />
@@ -118,9 +121,14 @@ export default () => {
   }
 
   return (
-    <SafeAreaView style={styles.scrollView}>
-      <Text style={styles.title}>What is more Spiessig?</Text>
-      <Contenders />
+    <SafeAreaView style={styles.container}>
+      <Header />
+
+      <ScrollView style={styles.scrollView}>
+        <Text style={styles.title}>What is more Spiessig?</Text>
+
+        <Contenders />
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -134,13 +142,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    flexDirection: "row",
   },
   scrollView: {
     backgroundColor: "pink",
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
+    paddingTop: 16,
   },
   text: {
     color: "white",
@@ -148,6 +153,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 42,
     color: "white",
+    textAlign: 'center',
+    paddingBottom: 32,
   },
   image: {
     height: 170,
