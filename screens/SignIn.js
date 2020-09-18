@@ -30,11 +30,14 @@ export default () => {
         <Input
           style={{width: '100%', marginBottom: 24 }}
           placeholder="Email"
+          autoCompleteType="email"
           value={email}
           onChangeText={setEmail}
         />
         <Input
           style={{width: '100%', marginBottom: 36 }}
+
+          autoCompleteType="password"
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
