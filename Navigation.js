@@ -14,6 +14,7 @@ import Feed from "./screens/Feed";
 import Ranking from "./screens/Ranking";
 import SignIn from "./screens/SignIn";
 import Upload from "./screens/Upload";
+import Account from './screens/Account'
 
 const Tab = createBottomTabNavigator();
 
@@ -47,6 +48,7 @@ export default () => {
           <Tab.Screen name="Submit" component={Upload} />
         )}
         {!isSignedIn && <Tab.Screen name="Login" component={SignIn} />}
+        {isSignedIn && <Tab.Screen name="Account" component={Account} />}
       </Tab.Navigator>
     </NavigationContainer>
   );
