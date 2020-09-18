@@ -28,6 +28,7 @@ class App extends React.Component {
     image: "",
     uploading: false,
     name: "",
+    isSubmitted: false,
   };
 
   async componentDidMount() {
@@ -48,7 +49,7 @@ class App extends React.Component {
           justifyContent: "center",
         }}
       >
-        {!!image && (
+        {this.state.isSubmitted && (
           <Text
             style={{
               fontSize: 20,
@@ -178,6 +179,7 @@ class App extends React.Component {
           random: getRandomNumber(),
         });
         this.setState({ image: uploadUrl });
+        this.setState({isSubmitted: true})
       }
     } catch (e) {
       console.log(e);
@@ -227,6 +229,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     minWidth: 150,
     minHeight: 30,
+    justifyContent: 'center'
   },
   buttonDisabled: {
     borderTopLeftRadius: 33,
@@ -238,6 +241,8 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     minWidth: 150,
     minHeight: 30,
+
+    justifyContent: 'center'
   },
   buttonText: {
     color: "white",
