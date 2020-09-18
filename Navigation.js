@@ -38,12 +38,12 @@ export default () => {
   return (
     <NavigationContainer>
       <Tab.Navigator>
+        <Tab.Screen name="Ranking" component={Ranking} />
         <Tab.Screen name="Play" component={Feed} />
         {isSignedIn && allowedEmails.includes(auth.email) && (
           <Tab.Screen name="Submit" component={Upload} />
         )}
         {!isSignedIn && <Tab.Screen name="Login" component={SignIn} />}
-        <Tab.Screen name="Ranking" component={Ranking} />
       </Tab.Navigator>
     </NavigationContainer>
   );
