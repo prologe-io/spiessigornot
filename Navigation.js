@@ -19,7 +19,7 @@ import Account from "./screens/Account";
 
 const Tab = createBottomTabNavigator();
 
-const color = '#2f80ed'
+const color = "#2f80ed";
 
 export default () => {
   const auth = useSelector(
@@ -61,7 +61,7 @@ export default () => {
           name="Play"
           component={Feed}
         />
-        {isSignedIn && allowedEmails.includes(auth.email) && (
+        {isSignedIn && (
           <Tab.Screen
             options={{
               tabBarIcon: () => (
