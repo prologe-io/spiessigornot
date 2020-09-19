@@ -25,13 +25,12 @@ const getRandomNumber = () => {
 
 console.disableYellowBox = true;
 const initialState = {
-
-    image: "",
-    uploading: false,
-    name: "",
-    isSubmitted: false,
-  
-}
+  image: "",
+  uploading: false,
+  name: "", // the human readable name of the item
+  isSubmitted: false,
+  id: "", // uuid that will be used as a file name
+};
 class App extends React.Component {
   state = initialState;
 
@@ -62,6 +61,7 @@ class App extends React.Component {
               textAlign: "center",
               marginHorizontal: 15,
             }}
+            k
           >
             Spießig successfuly added!
           </Text>
@@ -188,12 +188,13 @@ class App extends React.Component {
       this.setState({ uploading: true });
 
       if (!pickerResult.cancelled) {
-        const uploadUrl = await uploadImageAsync(pickerResult.uri);
+        const uploadUrl = await this.uploadImageAsync(pickerResult.uri);
         // only able to set a single picture at the moment
         await this.props.firestore.collection("units").add({
           name: this.state.name,
           photo: uploadUrl,
           random: getRandomNumber(),
+          photoName: this.state.id,
         });
         this.setState({ image: uploadUrl });
         this.setState({ isSubmitted: true });
@@ -205,33 +206,35 @@ class App extends React.Component {
       this.setState({ uploading: false });
     }
   };
-}
 
-async function uploadImageAsync(uri) {
-  // Why are we using XMLHttpRequest? See:
-  // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-  const blob = await new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      resolve(xhr.response);
-    };
-    xhr.onerror = function (e) {
-      console.log(e);
-      reject(new TypeError("Network request failed"));
-    };
-    xhr.responseType = "blob";
-    xhr.open("GET", uri, true);
-    xhr.send(null);
-  });
+  uploadImageAsync = async (uri) => {
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
 
-  const ref = firebase.storage().ref().child(uuid.v4());
-  const snapshot = await ref.put(blob);
-  console.log(blob);
+    const uniqueId = uuid.v4();
+    this.setState({ id: uniqueId });
+    const ref = firebase.storage().ref().child(uniqueId);
+    const snapshot = await ref.put(blob);
+    console.log(blob);
 
-  // We're done with the blob, close and release it
-  //  blob.close();
+    // We're done with the blob, close and release it
+    //  blob.close();
 
-  return await snapshot.ref.getDownloadURL();
+    return await snapshot.ref.getDownloadURL();
+  };
 }
 export default withFirestore(App);
 

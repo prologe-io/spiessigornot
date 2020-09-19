@@ -7,9 +7,14 @@ import {
   StyleSheet,
   ScrollView,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import { Card, CardTitle } from "../Card";
-import { useFirestore, useFirestoreConnect } from "react-redux-firebase";
+import {
+  useFirebase,
+  useFirestore,
+  useFirestoreConnect,
+} from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
 import { isLoaded, isEmpty } from "react-redux-firebase";
@@ -36,18 +41,31 @@ const getRandomDocument = async () => {
   return contender;
 };
 
-const Contender = ({ contender, onVote }) => {
+export const Contender = ({ contender, onVote = () => null }) => {
+  const firebase = useFirebase();
+  const [photoUrl, setPhotoUrl] = useState("");
+
+  useEffect(() => {
+    firebase
+      .storage()
+      .ref(`${contender.photoName}_300x300`)
+      .getDownloadURL()
+      .then((url) => setPhotoUrl(url))
+      .catch((e) => console.log(e));
+  });
+
   return (
     <View key={contender.id}>
       <TouchableOpacity style={{ alignItems: "center" }} onPress={onVote}>
         <Card style={{ marginBottom: 12 }}>
           <CardTitle>{contender.name}</CardTitle>
+
           <Image
             style={{
               width: 180,
               height: 180,
             }}
-            source={{ uri: contender.photo }}
+            source={{ uri: photoUrl }}
           />
         </Card>
       </TouchableOpacity>
@@ -67,13 +85,24 @@ export const Contenders = ({ disabled }) => {
     const initContender = async () => {
       setLoading(true);
 
-      const result1 = await getRandomDocument();
-      const result2 = await getRandomDocument();
-      if (result2.id === result1.id) {
-        return initContender();
+      try {
+        const result1 = await getRandomDocument();
+        const result2 = await getRandomDocument();
+        if (!result1) {
+          return initContender();
+        }
+        if (!result2) {
+          return initContender();
+        }
+
+        if (result2.id === result1.id) {
+          return initContender();
+        }
+        setContender1(result1);
+        setContender2(result2);
+      } catch (e) {
+        console.log(e);
       }
-      setContender1(result1);
-      setContender2(result2);
 
       setLoading(false);
     };
@@ -92,7 +121,9 @@ export const Contenders = ({ disabled }) => {
 
   return (
     <View style={styles.contenderView}>
-      {!loading && (
+      {loading ? (
+        <ActivityIndicator size="large" color="white" />
+      ) : (
         <>
           <Contender
             contender={contender1}
@@ -123,14 +154,14 @@ export default () => {
     <SafeAreaView style={styles.container}>
       <Header />
 
-      <ScrollView style={styles.scrollView}>
-        <Text style={styles.title}>What is more Spiessig?</Text>
+      <View style={styles.main}>
+        <Text style={styles.title}>what is more spießig?</Text>
         {!isSignedIn && (
           <Text style={styles.title}>Sign up to be able to vote</Text>
         )}
 
-        <Contenders disabled={!isSignedIn} />
-      </ScrollView>
+        {isSignedIn && <Contenders disabled={!isSignedIn} />}
+      </View>
     </SafeAreaView>
   );
 };
@@ -141,11 +172,13 @@ const styles = StyleSheet.create({
     marginTop: Constants.statusBarHeight,
   },
   contenderView: {
+    height: '100%',
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
-  scrollView: {
+  main: {
+    height: '100%',
     backgroundColor: "pink",
     paddingTop: 16,
   },
@@ -153,10 +186,13 @@ const styles = StyleSheet.create({
     color: "white",
   },
   title: {
-    fontSize: 42,
-    color: "white",
+    fontSize: 30,
+    color: "#262627",
     textAlign: "center",
-    paddingBottom: 32,
+    marginTop: 32,
+    paddingBottom: 16,
+    paddingTop: 16,
+    backgroundColor:'white'
   },
   image: {
     height: 170,

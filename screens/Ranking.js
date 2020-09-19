@@ -14,6 +14,7 @@ import { Card, CardTitle } from "../Card";
 import { useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
+import { Contender } from "./Feed";
 
 export default () => {
   useFirestoreConnect(() => [
@@ -40,19 +41,11 @@ export default () => {
         >
           {units &&
             units.length > 0 &&
-            units.map((item, index) => (
-              <Card style={{ marginBottom: 12 }} key={item.id}>
-                <CardTitle>
-                  {index + 1}. {item.name}
-                </CardTitle>
-                <Image
-                  style={{
-                    minWidth: 300,
-                    minHeight: 300,
-                  }}
-                  source={{ uri: item.photo }}
-                />
-              </Card>
+            units.map((contender, index) => (
+              <View key={contender.id}>
+                <Text style={{ color: "white",fontSize: 24 }}>{index + 1}#</Text>
+                <Contender contender={contender} />
+              </View>
             ))}
         </View>
       </ScrollView>
