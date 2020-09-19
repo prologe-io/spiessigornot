@@ -54,7 +54,7 @@ export const Contender = ({ contender, onVote = () => null, title }) => {
       .getDownloadURL()
       .then((url) => setPhotoUrl(url))
       .catch((e) => console.log(e));
-  });
+  }, []);
 
   return (
     <View key={contender.id}>
@@ -189,14 +189,14 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "pink",
     justifyContent: "center",
-    alignItems: 'center',
+    alignItems: "center",
   },
   text: {
     color: "white",
   },
   title: {
     fontSize: 30,
-    width: '100%',
+    width: "100%",
     color: "#262627",
     textAlign: "center",
     paddingBottom: 16,
