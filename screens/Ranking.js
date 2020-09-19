@@ -44,7 +44,11 @@ export default () => {
               <View key={contender.id}>
                 <Contender
                   contender={contender}
-                  title={<Text style={{ fontSize: 24 }}>{index + 1}#</Text>}
+                  title={
+                    <Text style={{ fontSize: 18, color: "#BDBDBD", fontStyle: 'italic' }}>
+                      #{index + 1}
+                    </Text>
+                  }
                 />
               </View>
             ))}

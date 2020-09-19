@@ -58,9 +58,8 @@ export const Contender = ({ contender, onVote = () => null, title }) => {
     <View key={contender.id}>
       <TouchableOpacity style={{ alignItems: "center" }} onPress={onVote}>
         <Card style={{ marginBottom: 12 }}>
-          <CardTitle>
-            {title} {contender.name}
-          </CardTitle>
+          {title && <CardTitle style={{color: 'grey'}}>{title}</CardTitle>}
+          <CardTitle>{contender.name}</CardTitle>
           <Image
             style={{
               width: 180,
