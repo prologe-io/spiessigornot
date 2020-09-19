@@ -15,12 +15,14 @@ import {
   useFirestore,
   useFirestoreConnect,
 } from "react-redux-firebase";
+import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import firebase from "firebase/app";
 
 import Header from "../Header";
+import Button from "../Button";
 
 const getRandomNumber = () => {
   const min = Math.ceil(Number.MIN_VALUE);
@@ -58,7 +60,7 @@ export const Contender = ({ contender, onVote = () => null, title }) => {
     <View key={contender.id}>
       <TouchableOpacity style={{ alignItems: "center" }} onPress={onVote}>
         <Card style={{ marginBottom: 12 }}>
-          {title && <CardTitle style={{color: 'grey'}}>{title}</CardTitle>}
+          {title && <CardTitle>{title}</CardTitle>}
           <CardTitle>{contender.name}</CardTitle>
           <Image
             style={{
@@ -147,6 +149,7 @@ export default () => {
     (state) => state.firebase.auth,
     () => false
   );
+  const navigation = useNavigation();
 
   const isSignedIn = isLoaded(auth) && !isEmpty(auth);
 
@@ -157,7 +160,13 @@ export default () => {
       <View style={styles.main}>
         <Text style={styles.title}>what is more spießig?</Text>
         {!isSignedIn && (
-          <Text style={styles.title}>Sign up to be able to vote</Text>
+          <Button
+            style={{ maxWidth: 250 }}
+            onPress={() => navigation.navigate("Login")}
+            primary
+          >
+            Register to vote
+          </Button>
         )}
 
         {isSignedIn && <Contenders disabled={!isSignedIn} />}
@@ -179,12 +188,15 @@ const styles = StyleSheet.create({
   main: {
     height: "100%",
     backgroundColor: "pink",
+    justifyContent: "center",
+    alignItems: 'center',
   },
   text: {
     color: "white",
   },
   title: {
     fontSize: 30,
+    width: '100%',
     color: "#262627",
     textAlign: "center",
     paddingBottom: 16,
@@ -195,8 +207,5 @@ const styles = StyleSheet.create({
   image: {
     height: 170,
     width: 170,
-  },
-  button: {
-    backgroundColor: "white",
   },
 });
