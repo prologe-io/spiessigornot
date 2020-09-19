@@ -58,7 +58,9 @@ export const Contender = ({ contender, onVote = () => null, title }) => {
     <View key={contender.id}>
       <TouchableOpacity style={{ alignItems: "center" }} onPress={onVote}>
         <Card style={{ marginBottom: 12 }}>
-          <CardTitle>{title} {contender.name}</CardTitle>
+          <CardTitle>
+            {title} {contender.name}
+          </CardTitle>
           <Image
             style={{
               width: 180,
@@ -171,15 +173,13 @@ const styles = StyleSheet.create({
     marginTop: Constants.statusBarHeight,
   },
   contenderView: {
-    height: '100%',
+    height: "100%",
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
   },
   main: {
-    height: '100%',
+    height: "100%",
     backgroundColor: "pink",
-    paddingTop: 16,
   },
   text: {
     color: "white",
@@ -188,10 +188,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "#262627",
     textAlign: "center",
-    marginTop: 32,
     paddingBottom: 16,
     paddingTop: 16,
-    backgroundColor:'white'
+    backgroundColor: "rgb(242, 242, 242)",
+    marginBottom: 32,
   },
   image: {
     height: 170,

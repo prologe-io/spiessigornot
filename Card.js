@@ -9,4 +9,6 @@ export const Card = styled.View`
 
 export const CardTitle = styled.Text`
     margin-bottom: 16px;
+    white-space: unset;
+    max-width: 180px;
 `
