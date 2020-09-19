@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   title: {
-    fontSize: 30,
+    fontSize: 18,
     width: "100%",
     color: "#262627",
     textAlign: "center",
