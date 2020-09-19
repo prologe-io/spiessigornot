@@ -9,7 +9,6 @@ import {
 } from "react-native";
 
 import Header from "../Header";
-import { Card, CardTitle } from "../Card";
 
 import { useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
@@ -43,8 +42,10 @@ export default () => {
             units.length > 0 &&
             units.map((contender, index) => (
               <View key={contender.id}>
-                <Text style={{ color: "white",fontSize: 24 }}>{index + 1}#</Text>
-                <Contender contender={contender} />
+                <Contender
+                  contender={contender}
+                  title={<Text style={{ fontSize: 24 }}>{index + 1}#</Text>}
+                />
               </View>
             ))}
         </View>

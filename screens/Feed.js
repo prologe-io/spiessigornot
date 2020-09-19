@@ -41,7 +41,7 @@ const getRandomDocument = async () => {
   return contender;
 };
 
-export const Contender = ({ contender, onVote = () => null }) => {
+export const Contender = ({ contender, onVote = () => null, title }) => {
   const firebase = useFirebase();
   const [photoUrl, setPhotoUrl] = useState("");
 
@@ -58,8 +58,7 @@ export const Contender = ({ contender, onVote = () => null }) => {
     <View key={contender.id}>
       <TouchableOpacity style={{ alignItems: "center" }} onPress={onVote}>
         <Card style={{ marginBottom: 12 }}>
-          <CardTitle>{contender.name}</CardTitle>
-
+          <CardTitle>{title} {contender.name}</CardTitle>
           <Image
             style={{
               width: 180,
