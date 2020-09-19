@@ -1,7 +1,7 @@
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import firebase from "firebase/app";
-import { withFirebase, withFirestore } from "react-redux-firebase";
+import { constants, withFirebase, withFirestore } from "react-redux-firebase";
 import React from "react";
 import {
   ActivityIndicator,
@@ -9,13 +9,16 @@ import {
   Image,
   StatusBar,
   StyleSheet,
-  TouchableOpacity,
+  SafeAreaView,
   Text,
   View,
 } from "react-native";
+
+import Constants from "expo-constants";
 import uuid from "uuid";
 import Input from "../Input";
 import CustomButton from "../Button";
+import Header from "../Header";
 
 const getRandomNumber = () => {
   const min = Math.ceil(Number.MIN_VALUE);
@@ -73,44 +76,38 @@ class App extends React.Component {
     }
 
     return (
-      <View
-        style={{
-          backgroundColor: "pink",
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <View style={styles.buttonContainer}>
+      <SafeAreaView style={styles.container}>
+        <Header />
+        <View style={styles.content}>
           <Input
             placeholder="Enter spießig name"
             onChangeText={(value) => this.setState({ name: value })}
             value={this.state.name}
             style={{ width: "100%", marginBottom: 36 }}
           ></Input>
+
+          <View style={styles.buttonContainer}>
+            <Button onPress={this._pickImage} title="Camera Roll" />
+            <View style={{ height: 24 }}></View>
+
+            <Button onPress={this._takePhoto} title="Take a photo" />
+          </View>
+
+          {this._maybeRenderImage()}
+          {this._maybeRenderUploadingOverlay()}
+
+          {!isDisabled && (
+            <CustomButton
+              primary
+              disabled={isDisabled}
+              onPress={() => this._handleImagePicked(this.state.pickerResult)}
+            >
+              Submit
+            </CustomButton>
+          )}
+          <StatusBar barStyle="default" />
         </View>
-
-        <View style={styles.buttonContainer}>
-          <Button onPress={this._pickImage} title="Camera Roll" />
-          <View style={{ height: 24 }}></View>
-
-          <Button onPress={this._takePhoto} title="Take a photo" />
-        </View>
-
-        {this._maybeRenderImage()}
-        {this._maybeRenderUploadingOverlay()}
-
-        {!isDisabled && (
-          <CustomButton
-            primary
-            disabled={isDisabled}
-            onPress={() => this._handleImagePicked(this.state.pickerResult)}
-          >
-            Submit
-          </CustomButton>
-        )}
-        <StatusBar barStyle="default" />
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -239,38 +236,16 @@ class App extends React.Component {
 export default withFirestore(App);
 
 const styles = StyleSheet.create({
-  button: {
-    borderTopLeftRadius: 33,
-    borderTopRightRadius: 33,
-    borderBottomRightRadius: 33,
-    borderBottomLeftRadius: 33,
-    backgroundColor: "#3366FF",
-    marginTop: 24,
-    marginBottom: 24,
-    minWidth: 150,
-    minHeight: 30,
+  container: {
+    flex: 1,
+    marginTop: Constants.statusBarHeight,
+    //
+  },
+  content: {
+    backgroundColor: "pink",
+    flex: 1,
+    alignItems: "center",
     justifyContent: "center",
-  },
-  buttonDisabled: {
-    borderTopLeftRadius: 33,
-    borderTopRightRadius: 33,
-    borderBottomRightRadius: 33,
-    borderBottomLeftRadius: 33,
-    backgroundColor: "grey",
-    marginTop: 24,
-    marginBottom: 24,
-    minWidth: 150,
-    minHeight: 30,
-
-    justifyContent: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-    textAlignVertical: "center",
-  },
-  buttonContainer: {
-    width: 350,
+    padding: 32,
   },
 });
