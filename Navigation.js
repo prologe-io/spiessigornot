@@ -1,10 +1,11 @@
 import React from "react";
-import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 
 import { AppLoading } from "expo";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 
 import { useSelector } from "react-redux";
@@ -14,9 +15,11 @@ import Feed from "./screens/Feed";
 import Ranking from "./screens/Ranking";
 import SignIn from "./screens/SignIn";
 import Upload from "./screens/Upload";
-import Account from './screens/Account'
+import Account from "./screens/Account";
 
 const Tab = createBottomTabNavigator();
+
+const color = '#2f80ed'
 
 export default () => {
   const auth = useSelector(
@@ -42,13 +45,63 @@ export default () => {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Ranking" component={Ranking} />
-        <Tab.Screen name="Play" component={Feed} />
+        <Tab.Screen
+          options={{
+            tabBarIcon: () => (
+              <FontAwesome name="list" size={24} color={color} />
+            ),
+          }}
+          name="Ranking"
+          component={Ranking}
+        />
+        <Tab.Screen
+          options={{
+            tabBarIcon: () => <AntDesign name="play" size={24} color={color} />,
+          }}
+          name="Play"
+          component={Feed}
+        />
         {isSignedIn && allowedEmails.includes(auth.email) && (
-          <Tab.Screen name="Submit" component={Upload} />
+          <Tab.Screen
+            options={{
+              tabBarIcon: () => (
+                <AntDesign name="camera" size={24} color={color} />
+              ),
+            }}
+            name="Submit"
+            component={Upload}
+          />
         )}
-        {!isSignedIn && <Tab.Screen name="Login" component={SignIn} />}
-        {isSignedIn && <Tab.Screen name="Account" component={Account} />}
+        {!isSignedIn && (
+          <Tab.Screen
+            options={{
+              tabBarIcon: () => (
+                <MaterialCommunityIcons
+                  name="face-profile"
+                  size={24}
+                  color={color}
+                />
+              ),
+            }}
+            name="Login"
+            component={SignIn}
+          />
+        )}
+        {isSignedIn && (
+          <Tab.Screen
+            options={{
+              tabBarIcon: () => (
+                <MaterialCommunityIcons
+                  name="face-profile"
+                  size={24}
+                  color={color}
+                />
+              ),
+            }}
+            name="Account"
+            component={Account}
+          />
+        )}
       </Tab.Navigator>
     </NavigationContainer>
   );
