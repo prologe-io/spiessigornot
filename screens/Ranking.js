@@ -41,7 +41,7 @@ export default () => {
           {units &&
             units.length > 0 &&
             units.map((contender, index) => (
-              <View key={contender.id}>
+              <View co={console.log(contender)}key={contender.id}>
                 <Contender
                   contender={contender}
                   title={

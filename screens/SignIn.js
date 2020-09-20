@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   View,
-  TextInput,
+  Text,
   StyleSheet,
   SafeAreaView,
   ActivityIndicator,
@@ -26,16 +26,12 @@ export default () => {
   const signIn = async () => {
     setLoading(true);
     await firebase.login({ email, password });
-
-    setLoading(false);
   };
 
   const signUp = async () => {
     setLoading(true);
     await firebase.createUser({ email, password });
     await firebase.login({ email, password });
-
-    setLoading(false);
   };
 
   return (
@@ -68,12 +64,18 @@ export default () => {
               height: 100,
             }}
           >
-            <Button disabled={loading} primary onPress={signUp}>
-              {loading ? <ActivityIndicator color="white" /> : "Sign Up"}
-            </Button>
-            <Button disabled={loading} onPress={signIn}>
-              {loading ? <ActivityIndicator color="white" /> : "Login"}
-            </Button>
+            {loading ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <>
+                <Button disabled={loading} primary onPress={signUp}>
+                  Sign Up
+                </Button>
+                <Button disabled={loading} onPress={signIn}>
+                  Login
+                </Button>
+              </>
+            )}
           </View>
         </View>
       </DismissKeyboard>
