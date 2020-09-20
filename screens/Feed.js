@@ -168,8 +168,7 @@ export default () => {
             Register to vote
           </Button>
         )}
-
-        {isSignedIn && <Contenders disabled={!isSignedIn} />}
+        <Contenders disabled={!isSignedIn} />
       </View>
     </SafeAreaView>
   );
