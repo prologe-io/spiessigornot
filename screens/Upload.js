@@ -2,6 +2,8 @@ import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import firebase from "firebase/app";
 import { constants, withFirebase, withFirestore } from "react-redux-firebase";
+import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
   ActivityIndicator,
@@ -12,6 +14,8 @@ import {
   SafeAreaView,
   Text,
   View,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 
 import Constants from "expo-constants";
@@ -34,6 +38,12 @@ const initialState = {
   isSubmitted: false,
   id: "", // uuid that will be used as a file name
 };
+
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
 class App extends React.Component {
   state = initialState;
 
@@ -45,7 +55,7 @@ class App extends React.Component {
   render() {
     let { image, name } = this.state;
 
-    const isDisabled = image.length === 0 || name.length === 0;
+    const readyToUpload = image?.length > 0 && name?.length > 0;
 
     if (this.state.isSubmitted) {
       return (
@@ -64,9 +74,8 @@ class App extends React.Component {
               textAlign: "center",
               marginHorizontal: 15,
             }}
-            k
           >
-            Spießig successfuly added!
+            Boom!
           </Text>
           <CustomButton primary onPress={() => this.setState(initialState)}>
             Add another item
@@ -78,35 +87,42 @@ class App extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <Header />
-        <View style={styles.content}>
-          <Input
-            placeholder="Enter spießig name"
-            onChangeText={(value) => this.setState({ name: value })}
-            value={this.state.name}
-            style={{ width: "100%", marginBottom: 36 }}
-          ></Input>
 
-          <View style={styles.buttonContainer}>
-            <Button onPress={this._pickImage} title="Camera Roll" />
-            <View style={{ height: 24 }}></View>
+        <Text style={styles.title}>Upload Spießig Gegenstand</Text>
+        <DismissKeyboard>
+          <View style={styles.content}>
+            <Input
+              placeholder="Enter spießig name"
+              onChangeText={(value) => this.setState({ name: value })}
+              value={this.state.name}
+              style={{ width: "100%", marginBottom: 36 }}
+            ></Input>
 
-            <Button onPress={this._takePhoto} title="Take a photo" />
+            <View style={styles.buttonContainer}>
+              <CustomButton primary onPress={this._pickImage} style={{minWidth: 96, minHeight: 60 }}>
+                <Ionicons primary name="md-photos" size={36} color="white" />
+              </CustomButton>
+              <View style={{ height: 24 }}></View>
+
+              <CustomButton primary onPress={this._takePhoto} style={{minWidth: 96}}>
+                <AntDesign name="camera" size={36} color={"white"} />
+              </CustomButton>
+            </View>
+
+            {this._maybeRenderImage()}
+            {this._maybeRenderUploadingOverlay()}
+
+            {readyToUpload && (
+              <CustomButton
+                primary
+                onPress={() => this._handleImagePicked(this.state.pickerResult)}
+              >
+                Submit
+              </CustomButton>
+            )}
+            <StatusBar barStyle="default" />
           </View>
-
-          {this._maybeRenderImage()}
-          {this._maybeRenderUploadingOverlay()}
-
-          {!isDisabled && (
-            <CustomButton
-              primary
-              disabled={isDisabled}
-              onPress={() => this._handleImagePicked(this.state.pickerResult)}
-            >
-              Submit
-            </CustomButton>
-          )}
-          <StatusBar barStyle="default" />
-        </View>
+        </DismissKeyboard>
       </SafeAreaView>
     );
   }
@@ -236,6 +252,20 @@ class App extends React.Component {
 export default withFirestore(App);
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 18,
+    width: "100%",
+    color: "#262627",
+    textAlign: "center",
+    paddingTop: 8,
+    backgroundColor: "rgb(242, 242, 242)",
+    marginBottom: 16,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-around'
+  },
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,

@@ -158,7 +158,7 @@ export default () => {
       <Header />
 
       <View style={styles.main}>
-        <Text style={styles.title}>what is more spießig?</Text>
+        <Text style={styles.title}>what's more spießig?</Text>
         {!isSignedIn && (
           <Button
             style={{ maxWidth: 250 }}
@@ -200,9 +200,9 @@ const styles = StyleSheet.create({
     color: "#262627",
     textAlign: "center",
     paddingBottom: 16,
-    paddingTop: 16,
+    paddingTop: 8,
     backgroundColor: "rgb(242, 242, 242)",
-    marginBottom: 32,
+    marginBottom: 16,
   },
   image: {
     height: 170,
