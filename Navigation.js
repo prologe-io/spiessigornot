@@ -61,7 +61,7 @@ export default () => {
           name="Play"
           component={Feed}
         />
-        {isSignedIn && (
+        {isSignedIn && allowedEmails.includes(auth.email) && (
           <Tab.Screen
             options={{
               tabBarIcon: () => (
