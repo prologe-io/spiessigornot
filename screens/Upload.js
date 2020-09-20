@@ -39,7 +39,7 @@ const initialState = {
   id: "", // uuid that will be used as a file name
 };
 
-const DismissKeyboard = ({ children }) => (
+export const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     {children}
   </TouchableWithoutFeedback>

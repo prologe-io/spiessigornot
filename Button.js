@@ -22,6 +22,7 @@ const SecondaryButton = styled.TouchableOpacity`
 
 const Text = styled.Text`
   color: white;
+
 `;
 
 const SecondaryText = styled.Text`
