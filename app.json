@@ -23,7 +23,8 @@
       "favicon": "./assets/favicon.png"
     },
     "android": {
-      "package": "com.prologe.spiessigornot"
+      "package": "com.prologe.spiessigornot",
+      "versionCode": 2
     }
   }
 }
