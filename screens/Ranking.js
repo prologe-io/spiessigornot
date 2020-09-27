@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     marginTop: Constants.statusBarHeight,
   },
   scrollView: {
-    backgroundColor: "pink",
     paddingTop: 16,
   },
   text: {

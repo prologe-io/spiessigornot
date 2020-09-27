@@ -1,13 +1,13 @@
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import firebase from "firebase/app";
-import { constants, withFirebase, withFirestore } from "react-redux-firebase";
+import { withFirestore } from "react-redux-firebase";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
   ActivityIndicator,
-  Button,
+  Platform,
   Image,
   StatusBar,
   StyleSheet,
@@ -39,11 +39,17 @@ const initialState = {
   id: "", // uuid that will be used as a file name
 };
 
-export const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
+export const DismissKeyboard = ({ children }) => {
+  if (Platform.OS === "web") {
+    return children;
+  }
+
+  return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      {children}
+    </TouchableWithoutFeedback>
+  );
+};
 class App extends React.Component {
   state = initialState;
 
@@ -99,12 +105,20 @@ class App extends React.Component {
             ></Input>
 
             <View style={styles.buttonContainer}>
-              <CustomButton primary onPress={this._pickImage} style={{minWidth: 96, minHeight: 60 }}>
+              <CustomButton
+                primary
+                onPress={this._pickImage}
+                style={{ minWidth: 96, minHeight: 60 }}
+              >
                 <Ionicons primary name="md-photos" size={36} color="white" />
               </CustomButton>
               <View style={{ height: 24 }}></View>
 
-              <CustomButton primary onPress={this._takePhoto} style={{minWidth: 96}}>
+              <CustomButton
+                primary
+                onPress={this._takePhoto}
+                style={{ minWidth: 96 }}
+              >
                 <AntDesign name="camera" size={36} color={"white"} />
               </CustomButton>
             </View>
@@ -262,9 +276,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-around'
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-around",
   },
   container: {
     flex: 1,

@@ -131,9 +131,7 @@ export const Contenders = ({ disabled }) => {
             contender={contender1}
             onVote={() => handleVote(contender1.id, contender2.id)}
           />
-          <Text style={{ color: "white", fontWeight: "bold", fontSize: 24 }}>
-            OR
-          </Text>
+          <Text style={{ fontSize: 18 }}>OR</Text>
           <Contender
             contender={contender2}
             onVote={() => handleVote(contender2.id, contender1.id)}
@@ -156,12 +154,11 @@ export default () => {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
-
-      <View style={styles.main}>
+      <ScrollView>
         <Text style={styles.title}>what's more spießig?</Text>
         {!isSignedIn && (
           <Button
-            style={{ maxWidth: 250 }}
+            style={{ maxWidth: 250, margin: 'auto' }}
             onPress={() => navigation.navigate("Login")}
             primary
           >
@@ -169,7 +166,7 @@ export default () => {
           </Button>
         )}
         <Contenders disabled={!isSignedIn} />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -182,12 +179,6 @@ const styles = StyleSheet.create({
   contenderView: {
     height: "100%",
     flex: 1,
-    alignItems: "center",
-  },
-  main: {
-    height: "100%",
-    backgroundColor: "pink",
-    justifyContent: "center",
     alignItems: "center",
   },
   text: {

@@ -4,8 +4,8 @@ import styled from "styled-components/native";
 const Header = styled.View`
   width: 100%;
   border-radius: 3px;
-  justify-content: flex-end;
-  align-items: flex-end;
+  justify-content:center; 
+  align-items: center;
   padding: 16px;
 `;
 
