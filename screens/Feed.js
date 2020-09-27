@@ -189,10 +189,9 @@ const styles = StyleSheet.create({
     width: "100%",
     color: "#262627",
     textAlign: "center",
-    paddingBottom: 16,
+    paddingBottom: 8,
     paddingTop: 8,
     backgroundColor: "rgb(242, 242, 242)",
-    marginBottom: 16,
   },
   image: {
     height: 170,
