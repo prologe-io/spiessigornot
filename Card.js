@@ -4,8 +4,6 @@ import styled from "styled-components/native";
 export const StyledCard = styled.View`
   max-width: 350px;
   padding: 16px;
-  min-height: 300px;
-  max-height: 300px;
   margin: 16px;
   background-color: white;
 `;
