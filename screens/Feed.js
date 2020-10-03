@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from "react-native";
-import { Card, CardTitle } from "../Card";
+import { Card, CardTitle } from "../components/Card";
 import { useFirebase, useFirestore } from "react-redux-firebase";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
@@ -17,8 +17,8 @@ import Constants from "expo-constants";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import firebase from "firebase/app";
 
-import Header from "../Header";
-import Button from "../Button";
+import Header from "../components/Header";
+import Button from "../components/Button";
 
 const getRandomNumber = () => {
   const min = Math.ceil(Number.MIN_VALUE);

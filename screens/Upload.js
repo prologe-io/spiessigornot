@@ -20,9 +20,9 @@ import {
 
 import Constants from "expo-constants";
 import uuid from "uuid";
-import Input from "../Input";
-import CustomButton from "../Button";
-import Header from "../Header";
+import Input from "../components/Input";
+import CustomButton from "../components/Button";
+import Header from "../components/Header";
 
 const getRandomNumber = () => {
   const min = Math.ceil(Number.MIN_VALUE);

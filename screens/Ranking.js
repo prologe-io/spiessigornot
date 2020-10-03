@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 
-import Header from "../Header";
+import Header from "../components/Header";
 
 import { useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";

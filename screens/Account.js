@@ -2,7 +2,7 @@ import React from "react";
 import { View} from "react-native";
 import { Text } from "react-native";
 import { useFirebase } from "react-redux-firebase";
-import Button from '../Button'
+import Button from '../components/Button'
 
 export default () => {
   const firebase = useFirebase();

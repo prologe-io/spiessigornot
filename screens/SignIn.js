@@ -9,9 +9,9 @@ import {
 import Constants from "expo-constants";
 import { useFirebase } from "react-redux-firebase";
 
-import Header from "../Header";
-import Input from "../Input";
-import Button from "../Button";
+import Header from "../components/Header";
+import Input from "../components/Input";
+import Button from "../components/Button";
 import { DismissKeyboard } from "./Upload";
 
 export default () => {
