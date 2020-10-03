@@ -10,11 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Card, CardTitle } from "../Card";
-import {
-  useFirebase,
-  useFirestore,
-  useFirestoreConnect,
-} from "react-redux-firebase";
+import { useFirebase, useFirestore } from "react-redux-firebase";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
@@ -158,7 +154,7 @@ export default () => {
         <Text style={styles.title}>what's more spießig?</Text>
         {!isSignedIn && (
           <Button
-            style={{ maxWidth: 250, margin: 'auto' }}
+            style={{ maxWidth: 250, margin: "auto" }}
             onPress={() => navigation.navigate("Login")}
             primary
           >

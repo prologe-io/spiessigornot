@@ -20,6 +20,7 @@ export default () => {
     { collection: "units", orderBy: ["wins", "desc"] },
   ]);
   const units = useSelector((state) => state.firestore.ordered.units);
+  console.log('yo ranking')
 
   if (units && units.length === 0) {
     return "Loading";

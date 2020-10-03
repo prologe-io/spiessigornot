@@ -1,7 +1,7 @@
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
 
-import { AppLoading } from "expo";
+import Constants from "expo-constants";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -22,25 +22,12 @@ const Tab = createBottomTabNavigator();
 const color = "#2f80ed";
 
 export default () => {
-  const auth = useSelector(
-    (state) => state.firebase.auth,
-    () => false
-  );
-  const profile = useSelector((state) => state.firebase.profile);
+  const auth = useSelector((state) => state.firebase.auth);
   const isSignedIn = isLoaded(auth) && !isEmpty(auth);
 
-  if (!isLoaded(auth)) {
-    return <AppLoading />;
-  }
-
-  if (isSignedIn && !isLoaded(profile)) {
-    return <AppLoading />;
-  }
-  const allowedEmails = [
-    "ben@prologe.io",
-    "laurent@prologe.io",
-    "alex@prologe.io",
-  ];
+  // small hack to only allow certain users to upload pictures
+  // configure in .env with EXPO_ALLOWED_EMAILS
+  const { allowedEmails = [] } = Constants.manifest.extra;
 
   return (
     <NavigationContainer>
