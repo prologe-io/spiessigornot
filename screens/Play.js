@@ -42,7 +42,6 @@ const getRandomDocument = async () => {
   return contender;
 };
 
-e;
 export const Contenders = ({ disabled }) => {
   const firestore = useFirestore();
 
