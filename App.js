@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import Constants from "expo-constants";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -17,19 +18,28 @@ import { createFirestoreInstance, firestoreReducer } from "redux-firestore";
 import AppNavigation from "./Navigation";
 
 const rrfConfig = {
-  userProfile: "users",
   useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
 };
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+const {
+  apiKey,
+  authDomain,
+  databaseURL,
+  projectId,
+  storageBucket,
+  appId,
+} = Constants.manifest.extra;
+console.log(projectId)
+console.log(typeof projectId)
+
 const fbConfig = {
-  apiKey: "AIzaSyA3nsZRSB4LXufr9nv6cbmslxULV6_QJzQ",
-  authDomain: "spiessigornot.firebaseapp.com",
-  databaseURL: "https://spiessigornot.firebaseio.com",
-  projectId: "spiessigornot",
-  storageBucket: "spiessigornot.appspot.com",
-  messagingSenderId: "83133423506",
-  appId: "1:83133423506:web:5a30d051d388cb3c2eab4b",
-  measurementId: "G-F3SCTWYPKK",
+  apiKey,
+  authDomain,
+  databaseURL,
+  projectId,
+  storageBucket,
+  appId,
 };
 
 firebase.initializeApp(fbConfig);
