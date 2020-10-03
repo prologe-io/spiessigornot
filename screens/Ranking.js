@@ -13,14 +13,13 @@ import Header from "../components/Header";
 import { useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
-import { Contender } from "./Feed";
+import Contender from "../components/Contender";
 
 export default () => {
   useFirestoreConnect(() => [
     { collection: "units", orderBy: ["wins", "desc"] },
   ]);
   const units = useSelector((state) => state.firestore.ordered.units);
-  console.log('yo ranking')
 
   if (units && units.length === 0) {
     return "Loading";
@@ -42,11 +41,17 @@ export default () => {
           {units &&
             units.length > 0 &&
             units.map((contender, index) => (
-              <View co={console.log(contender)}key={contender.id}>
+              <View co={console.log(contender)} key={contender.id}>
                 <Contender
                   contender={contender}
                   title={
-                    <Text style={{ fontSize: 18, color: "#BDBDBD", fontStyle: 'italic' }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        color: "#BDBDBD",
+                        fontStyle: "italic",
+                      }}
+                    >
                       #{index + 1}
                     </Text>
                   }

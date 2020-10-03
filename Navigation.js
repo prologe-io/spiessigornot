@@ -11,7 +11,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 
-import Feed from "./screens/Feed";
+import Play from "./screens/Play";
 import Ranking from "./screens/Ranking";
 import SignIn from "./screens/SignIn";
 import Upload from "./screens/Upload";
@@ -46,7 +46,7 @@ export default () => {
             tabBarIcon: () => <AntDesign name="play" size={24} color={color} />,
           }}
           name="Play"
-          component={Feed}
+          component={Play}
         />
         {isSignedIn && allowedEmails.includes(auth.email) && (
           <Tab.Screen
