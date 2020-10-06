@@ -283,7 +283,6 @@ const styles = StyleSheet.create({
     //
   },
   content: {
-    backgroundColor: "pink",
     flex: 1,
     alignItems: "center",
     justifyContent: "center",

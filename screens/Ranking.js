@@ -2,7 +2,6 @@ import React from "react";
 import {
   View,
   Text,
-  Image,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -71,8 +70,5 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     paddingTop: 16,
-  },
-  text: {
-    fontSize: 42,
   },
 });

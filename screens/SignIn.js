@@ -92,7 +92,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 32,
   },
-  text: {
-    fontSize: 42,
-  },
 });
