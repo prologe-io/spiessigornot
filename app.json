@@ -24,7 +24,7 @@
     },
     "android": {
       "package": "com.prologe.spiessigornot",
-      "versionCode": 2
+      "versionCode": 3
     }
   }
 }
