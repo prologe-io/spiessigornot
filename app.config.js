@@ -1,5 +1,9 @@
-require('dotenv').config()
+require("dotenv").config();
 
+const allowedEmails =
+  process.env.EXPO_ALLOWED_EMAILS.length > 0
+    ? process.env.EXPO_ALLOWED_EMAILS.split(",")
+    : "";
 
 export default {
   extra: {
@@ -9,6 +13,6 @@ export default {
     projectId: process.env.EXPO_PROJECT_ID,
     storageBucket: process.env.EXPO_STORAGE_BUCKET,
     appId: process.env.EXPO_APP_ID,
-    allowedEmails: process.env.EXPO_ALLOWED_EMAILS.split(','),
+    allowedEmails,
   },
 };
