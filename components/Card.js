@@ -6,6 +6,7 @@ export const StyledCard = styled.View`
   padding: 16px;
   margin: 16px;
   background-color: white;
+  border-radius: 8px;
 `;
 
 export const Card = ({ children, ...rest }) => (

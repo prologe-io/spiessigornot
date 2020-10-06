@@ -1,41 +1,62 @@
-import React from 'react'
+import React from "react";
 import styled from "styled-components/native";
 
+import { LinearGradient } from "expo-linear-gradient";
+
+const Ellipse = () => {
+  return (
+    <LinearGradient
+      colors={["#6454FA", "#7062FB"]}
+      style={{
+        position: "absolute",
+        top: "-60",
+        height: 250,
+        width: "120%",
+        borderRadius: "50%",
+        zIndex: "-1",
+      }}
+    />
+  );
+};
+
 const Header = styled.View`
+  position: relative;
   width: 100%;
   border-radius: 3px;
-  justify-content:center; 
+  justify-content: center;
   align-items: center;
   padding: 16px;
 `;
 
-const StyledText = styled.Text`
-font-style: normal;
-font-weight: normal;
-font-size: 12px;
-display: flex;
-align-items: center;
-text-align: center;
-color: #BDBDBD;
+const BaseText = styled.Text`
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: white;
 `;
-const Noun = styled.Text`
-font-style: normal;
-font-weight: normal;
-font-size: 18px;
-line-height: 24px;
-display: flex;
-align-items: center;
-text-align: center;
-color: #262627;
-margin-bottom: 12px;
 
-`
+const StyledText = styled(BaseText)`
+  font-size: 12px;
+`;
+const Noun = styled(BaseText)`
+  font-size: 18px;
+  line-height: 24px;
+  margin-bottom: 12px;
+`;
 
-export default () => (
+export default ({ children }) => (
   <Header>
-    <Noun>spießig</Noun>
-    <StyledText>
-      stuffy, conventional, pasty, boringly traditional -- dict.cc
-    </StyledText>
+    <Ellipse />
+    {children ? (
+      <Noun style={{marginTop: 12, fontSize: 30}}>{children}</Noun>
+    ) : (
+      <>
+        <Noun>spießig</Noun>
+        <StyledText>
+          stuffy, conventional, pasty, boringly traditional -- dict.cc
+        </StyledText>
+      </>
+    )}
   </Header>
 );

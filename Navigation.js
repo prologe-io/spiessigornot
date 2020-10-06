@@ -1,6 +1,9 @@
 import React from "react";
 
+import { Text } from "react-native";
+
 import Constants from "expo-constants";
+import { LinearGradient } from "expo-linear-gradient";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -19,8 +22,33 @@ import Account from "./screens/Account";
 
 const Tab = createBottomTabNavigator();
 
-const color = "#2f80ed";
+const NavItem = ({ children, icon }) => (
+  <LinearGradient
+    colors={["#382ABF", "#7062FB"]}
+    start={[0.45, 0.0]}
+    end={[0.9, 1.0]}
+    style={{
+      borderRadius: 25,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      paddingTop: 8,
+      paddingBottom: 8,
+      paddingLeft: 16,
+      paddingRight: 16,
+      flexDirection: "row",
+    }}
+  >
+    {icon}
+    {children && (
+      <Text style={{ marginLeft: 6, color: "white", fontWeight: "bold" }}>
+        {children}
+      </Text>
+    )}
+  </LinearGradient>
+);
 
+const ICON_SIZE = 16
 export default () => {
   const auth = useSelector((state) => state.firebase.auth);
   const isSignedIn = isLoaded(auth) && !isEmpty(auth);
@@ -31,11 +59,20 @@ export default () => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator
+        tabBarOptions={{
+          showLabel: false,
+          style: { height: 70, backgroundColor: "white" },
+        }}
+      >
         <Tab.Screen
           options={{
-            tabBarIcon: () => (
-              <FontAwesome name="list" size={24} color={color} />
+            tabBarIcon: ({ focused }) => (
+              <NavItem
+                icon={<FontAwesome name="list" size={ICON_SIZE} color="white" />}
+              >
+                {focused && "Ranking"}
+              </NavItem>
             ),
           }}
           name="Ranking"
@@ -43,7 +80,13 @@ export default () => {
         />
         <Tab.Screen
           options={{
-            tabBarIcon: () => <AntDesign name="play" size={24} color={color} />,
+            tabBarIcon: ({ focused }) => (
+              <NavItem
+                icon={<AntDesign name="play" size={ICON_SIZE} color={"white"} />}
+              >
+                {focused && "Play"}
+              </NavItem>
+            ),
           }}
           name="Play"
           component={Play}
@@ -51,8 +94,12 @@ export default () => {
         {isSignedIn && allowedEmails.includes(auth.email) && (
           <Tab.Screen
             options={{
-              tabBarIcon: () => (
-                <AntDesign name="camera" size={24} color={color} />
+              tabBarIcon: ({ focused }) => (
+                <NavItem
+                  icon={<AntDesign name="camera" size={ICON_SIZE} color={"white"} />}
+                >
+                  {focused && "Submit"}
+                </NavItem>
               ),
             }}
             name="Submit"
@@ -62,12 +109,18 @@ export default () => {
         {!isSignedIn && (
           <Tab.Screen
             options={{
-              tabBarIcon: () => (
-                <MaterialCommunityIcons
-                  name="face-profile"
-                  size={24}
-                  color={color}
-                />
+              tabBarIcon: ({ focused }) => (
+                <NavItem
+                  icon={
+                    <MaterialCommunityIcons
+                      name="face-profile"
+                      size={ICON_SIZE}
+                      color={"white"}
+                    />
+                  }
+                >
+                  {focused && "Login"}
+                </NavItem>
               ),
             }}
             name="Login"
@@ -77,12 +130,18 @@ export default () => {
         {isSignedIn && (
           <Tab.Screen
             options={{
-              tabBarIcon: () => (
-                <MaterialCommunityIcons
-                  name="face-profile"
-                  size={24}
-                  color={color}
-                />
+              tabBarIcon: ({ focused }) => (
+                <NavItem
+                  icon={
+                    <MaterialCommunityIcons
+                      name="face-profile"
+                      size={ICON_SIZE}
+                      color={"white"}
+                    />
+                  }
+                >
+                  {focused && "Account"}
+                </NavItem>
               ),
             }}
             name="Account"

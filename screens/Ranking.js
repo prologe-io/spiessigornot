@@ -1,18 +1,13 @@
 import React from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import { View, Text, SafeAreaView, ScrollView, StyleSheet } from "react-native";
 
 import Header from "../components/Header";
 
 import { useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
-import Constants from "expo-constants";
+
 import Contender from "../components/Contender";
+import Background from "../components/Background";
 
 export default () => {
   useFirestoreConnect(() => [
@@ -25,8 +20,8 @@ export default () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Header />
+    <Background>
+      <Header>Top 20</Header>
       <ScrollView style={styles.scrollView}>
         <View
           style={{
@@ -59,15 +54,11 @@ export default () => {
             ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </Background>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: Constants.statusBarHeight,
-  },
   scrollView: {
     paddingTop: 16,
   },

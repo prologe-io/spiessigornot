@@ -5,11 +5,8 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   ActivityIndicator,
 } from "react-native";
-
-import Constants from "expo-constants";
 
 import firebase from "firebase/app";
 
@@ -22,6 +19,7 @@ import { useFirestore, isLoaded, isEmpty } from "react-redux-firebase";
 import Contender from "../components/Contender";
 import Header from "../components/Header";
 import Button from "../components/Button";
+import Background from '../components/Background'
 
 const getRandomNumber = () => {
   const min = Math.ceil(Number.MIN_VALUE);
@@ -119,10 +117,9 @@ export default () => {
   const isSignedIn = isLoaded(auth) && !isEmpty(auth);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Header />
+    <Background>
+      <Header>what's more spießig?</Header>
       <ScrollView>
-        <Text style={styles.title}>what's more spießig?</Text>
         {!isSignedIn && (
           <Button
             style={{ maxWidth: 250, margin: "auto" }}
@@ -134,22 +131,15 @@ export default () => {
         )}
         <Contenders disabled={!isSignedIn} />
       </ScrollView>
-    </SafeAreaView>
+    </Background>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: Constants.statusBarHeight,
-  },
   contenderView: {
     height: "100%",
     flex: 1,
     alignItems: "center",
-  },
-  text: {
-    color: "white",
   },
   title: {
     fontSize: 18,
@@ -159,9 +149,5 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     paddingTop: 8,
     backgroundColor: "rgb(242, 242, 242)",
-  },
-  image: {
-    height: 170,
-    width: 170,
   },
 });
