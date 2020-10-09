@@ -92,9 +92,7 @@ class App extends React.Component {
 
     return (
       <SafeAreaView style={styles.container}>
-        <Header />
-
-        <Text style={styles.title}>Upload Spießig Gegenstand</Text>
+        <Header>Upload Spießig Item</Header>
         <DismissKeyboard>
           <View style={styles.content}>
             <Input
@@ -255,7 +253,6 @@ class App extends React.Component {
     this.setState({ id: uniqueId });
     const ref = firebase.storage().ref().child(uniqueId);
     const snapshot = await ref.put(blob);
-
 
     return await snapshot.ref.getDownloadURL();
   };

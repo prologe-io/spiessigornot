@@ -24,11 +24,11 @@ const Tab = createBottomTabNavigator();
 
 const NavItem = ({ children, icon }) => (
   <LinearGradient
-    colors={["#382ABF", "#7062FB"]}
+    colors={["#6454FA", "#7062FB"]}
     start={[0.45, 0.0]}
     end={[0.9, 1.0]}
     style={{
-      borderRadius: 25,
+      borderRadius: 13,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -48,7 +48,7 @@ const NavItem = ({ children, icon }) => (
   </LinearGradient>
 );
 
-const ICON_SIZE = 16
+const ICON_SIZE = 16;
 export default () => {
   const auth = useSelector((state) => state.firebase.auth);
   const isSignedIn = isLoaded(auth) && !isEmpty(auth);
@@ -69,7 +69,9 @@ export default () => {
           options={{
             tabBarIcon: ({ focused }) => (
               <NavItem
-                icon={<FontAwesome name="list" size={ICON_SIZE} color="white" />}
+                icon={
+                  <FontAwesome name="list" size={ICON_SIZE} color="white" />
+                }
               >
                 {focused && "Ranking"}
               </NavItem>
@@ -82,7 +84,9 @@ export default () => {
           options={{
             tabBarIcon: ({ focused }) => (
               <NavItem
-                icon={<AntDesign name="play" size={ICON_SIZE} color={"white"} />}
+                icon={
+                  <AntDesign name="play" size={ICON_SIZE} color={"white"} />
+                }
               >
                 {focused && "Play"}
               </NavItem>
@@ -96,7 +100,9 @@ export default () => {
             options={{
               tabBarIcon: ({ focused }) => (
                 <NavItem
-                  icon={<AntDesign name="camera" size={ICON_SIZE} color={"white"} />}
+                  icon={
+                    <AntDesign name="camera" size={ICON_SIZE} color={"white"} />
+                  }
                 >
                   {focused && "Submit"}
                 </NavItem>

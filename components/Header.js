@@ -1,22 +1,22 @@
 import React from "react";
+import { Dimensions, Platform } from "react-native";
+
 import styled from "styled-components/native";
 
 import { LinearGradient } from "expo-linear-gradient";
 
 const Ellipse = () => {
-  return (
-    <LinearGradient
-      colors={["#6454FA", "#7062FB"]}
-      style={{
-        position: "absolute",
-        top: "-60",
-        height: 250,
-        width: "120%",
-        borderRadius: "50%",
-        zIndex: "-1",
-      }}
-    />
-  );
+  const baseStyle = {
+    position: "absolute",
+    width: Dimensions.get("window").width,
+    // cannot make it consistently render an ellipsis on all the platforms
+    height: Platform.OS !== "web" ? Dimensions.get("window").width : 300,
+    transform: [{ scaleX: 3 }],
+    zIndex: -1,
+    borderRadius: Math.round(Dimensions.get("window").width / 2),
+  };
+
+  return <LinearGradient colors={["#6454FA", "#7062FB"]} style={baseStyle} />;
 };
 
 const Header = styled.View`
@@ -49,7 +49,7 @@ export default ({ children }) => (
   <Header>
     <Ellipse />
     {children ? (
-      <Noun style={{marginTop: 12, fontSize: 30}}>{children}</Noun>
+      <Noun style={{ paddingTop: 12, fontSize: 30 }}>{children}</Noun>
     ) : (
       <>
         <Noun>spießig</Noun>
