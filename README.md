@@ -1,24 +1,42 @@
 # Spießig or not
 
-
-## Links
-
-* [Landinge Page](https://web.spiessigornot.com)
-* [Google Play Store](https://play.google.com/store/apps/details?id=com.prologe.spiessigornot)
-
-## Defenition
+A tiny voting app to vote most "spießig" item.
 
 ### Spießig (Spiessig)
 
 > stuffy, conventional, pasty, boringly traditional -- dict.cc
 
 
-![Expo QR Code](expo-qr-code.png)
+## Stack
 
-##  Technical weightlifting
-* vercel for continious deployment 
-* expo for cross-platform development
+* react-native/expo for cross-platform development
+* firebase
+* vercel for CD
 * firebase for persistance
+
+## Platforms
+
+* web
+* iOS
+* android
+
+
+## Features
+
+* upload picture only for "admin"
+* vote on items
+* create an account / login
+
+
+## Current State
+
+* db is not well populated
+
+
+## Links
+
+* [Landinge Page](https://web.spiessigornot.com)
+* [Google Play Store](https://play.google.com/store/apps/details?id=com.prologe.spiessigornot)
 
 
 ## How-to use
