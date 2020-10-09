@@ -72,5 +72,6 @@ Tiny app to vote on `spießig` items & rank them
 
 Some stuff that I don't know but would be curious to know about:
 
-* how to make a splash screen that works everywhere
-* how can I use react-native animated w/ styled-components
+* how to make a splash screen that works everywhere?
+* how can I use react-native animated w/ styled-components?
+* what would be a good dev workflow to keep track of all 3 platforms working?
