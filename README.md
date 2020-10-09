@@ -1,6 +1,6 @@
 # Spießig or not
 
-Tiny app to vote on `spießig` item & rank them
+Tiny app to vote on `spießig` items & rank them
 
 
 ## Demo
