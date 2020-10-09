@@ -48,4 +48,4 @@ Tiny app to vote on `spießig` items & rank them
 
 ## Extra Info
 
-[prologe.io](https://prologe.io) is a app development agency and this app was a way for us to explore cross-platform development.
+[prologe.io](https://prologe.io) is a app development agency and this app was a way for us to explore cross-platform development. and no it's not supposed to look good :)
