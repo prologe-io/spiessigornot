@@ -1,6 +1,6 @@
 # Spießig or not
 
-Cross-platform tiny voting app to vote most `spießig` item.
+Tiny app to vote on `spießig` item & rank them
 
 
 ## Demo
